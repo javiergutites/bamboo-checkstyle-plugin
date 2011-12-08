@@ -13,6 +13,12 @@
     <name>Bamboo Checkstyle Plugin</name>
     <packaging>atlassian-plugin</packaging>
 
+    <scm>
+        <connection>scm:hg:ssh://hg@bitbucket.org/i386/bamboo-checkstyle-plugin</connection>
+        <developerConnection>scm:hg:ssh://hg@bitbucket.org/i386/bamboo-checkstyle-plugin</developerConnection>
+        <url>https://bitbucket.org/i386/bamboo-checkstyle-plugin/src</url>
+    </scm>
+
     <properties>
         <bamboo.version>3.3</bamboo.version>
         <bamboo.data.version>3.2.2</bamboo.data.version>
