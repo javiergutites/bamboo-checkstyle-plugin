@@ -1,6 +1,7 @@
 <html>
 	<head>
 		<title> [@ui.header pageKey='CheckStyle' object='${build.name} ${buildResults.buildNumber}' title=true /]</title>
+		<meta name="decorator" content="result">
 	</head>
 	<body>
     [@cp.resultsSubMenu selectedTab='checkstyle' /]
@@ -87,84 +88,66 @@
         width: 20%;
     }
 </style>
-    
-    <div class="section editConfiguration">
-    	<script type="text/javascript">
-		    var myTabs = new YAHOO.widget.TabView("fb_summary");
-		</script>
 
-		<div id="fb_summary" class="yui-navset">
-			<ul class="yui-nav">
-			    <li class="selected"><a href="#"><em>Checkstyle Summary</em></a></li>
-			    <li><a href="#"><em>Top Violations</em></a></li>
-			</ul>
-			
-	    <div class="yui-content">
-	
-			<div class="tabContent">
-			    [@ui.bambooInfoDisplay]
-			    <table class="grid flexi">
-			        <tr>
-			            <th>Priority</th>
-			            <th>Violations</th>
-			            <th>&Delta;</th>
-			        </tr>
-			
-					<tr class="High">
-						<th><b>ERROR</b></th>
-						<td class="width20">${customDataMap.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS?if_exists}</td>
-						<td class="width20">${customDataMap.CHECKSTYLE_ERROR_VIOLATION_DELTA?if_exists}</td>
-					</tr>
-			
-					<tr class="Medium">
-						<th><b>WARNING</b></th>
-						<td class="width20">${customDataMap.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS?if_exists}</td>
-						<td class="width20">${customDataMap.CHECKSTYLE_WARNING_VIOLATION_DELTA?if_exists}</td>
-					</tr>
-			
-					<tr class="Low">
-						<th><b>INFO</b></th>
-						<td class="width20">${customDataMap.CHECKSTYLE_INFO_PRIORITY_VIOLATIONS?if_exists}</td>
-						<td class="width20">${customDataMap.CHECKSTYLE_INFO_VIOLATION_DELTA?if_exists}</td>
-					</tr>
-			
-			        <tr>
-			            <th class="textLeft">TOTAL</th>
-			            <td class="width20 textRight">${customDataMap.CHECKSTYLE_TOTAL_VIOLATIONS?if_exists}</td>
-			            <td class="width20 textRight">${customDataMap.CHECKSTYLE_TOTAL_VIOLATION_DELTA?if_exists}</td>
-			        </tr>
-			    </table>
-			    [/@ui.bambooInfoDisplay]
-			</div>
-    
-			[#if !topViolations.isEmpty()]
-			<div class="tabContent">
-			  <table class="grid flexi">
-			      [#if !topViolations.isEmpty()]
-			          <tr>
-			              <th>File</th>
-			              <th>Violations</th>
-			          </tr>
-			          [#list topViolations as violationInformation]
-			              <tr>
-			              [#if violationInformation.fileName?contains("http://")]
-			                  <td class="vio" title="${violationInformation.fileName?split("#")?last}"><a href="${violationInformation.fileName}">${violationInformation.fileName?split("#")?last}</a></td>
-					      [#else]
-					           <td class="vio" title="${violationInformation.fileName?split("#")?last}">${violationInformation.fileName?split("#")?last?split("/")?last}</td>
-					      [/#if]
-			                  <td class="vio textRight">${violationInformation.numberOfViolations?string('0')}</td>
-			              </tr>
-			          [/#list]
-			      [#else]
-			          <tr>
-			              <td>No violators found.</td>
-			          </tr>
-			      [/#if]
-			  </table>
-			</div>
-			[/#if]  
-		</div>
-		</div>
-		</div>
+    [@ui.bambooSection title="Summary"]
+    <table class="aui">
+        <tr>
+            <th>Priority</th>
+            <th>Violations</th>
+            <th>&Delta;</th>
+        </tr>
+
+        <tr class="High">
+            <th><b>ERROR</b></th>
+            <td class="width20">${customDataMap.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS?if_exists}</td>
+            <td class="width20">${customDataMap.CHECKSTYLE_ERROR_VIOLATION_DELTA?if_exists}</td>
+        </tr>
+
+        <tr class="Medium">
+            <th><b>WARNING</b></th>
+            <td class="width20">${customDataMap.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS?if_exists}</td>
+            <td class="width20">${customDataMap.CHECKSTYLE_WARNING_VIOLATION_DELTA?if_exists}</td>
+        </tr>
+
+        <tr class="Low">
+            <th><b>INFO</b></th>
+            <td class="width20">${customDataMap.CHECKSTYLE_INFO_PRIORITY_VIOLATIONS?if_exists}</td>
+            <td class="width20">${customDataMap.CHECKSTYLE_INFO_VIOLATION_DELTA?if_exists}</td>
+        </tr>
+
+        <tr>
+            <th class="textLeft">TOTAL</th>
+            <td class="width20 textRight">${customDataMap.CHECKSTYLE_TOTAL_VIOLATIONS?if_exists}</td>
+            <td class="width20 textRight">${customDataMap.CHECKSTYLE_TOTAL_VIOLATION_DELTA?if_exists}</td>
+        </tr>
+    </table>
+    [/@ui.bambooSection]
+
+    [#if !topViolations.isEmpty()]
+    [@ui.bambooSection title="Violation"]
+    <table class="aui">
+      [#if !topViolations.isEmpty()]
+          <tr>
+              <th>File</th>
+              <th>Violations</th>
+          </tr>
+          [#list topViolations as violationInformation]
+              <tr>
+              [#if violationInformation.fileName?contains("http://")]
+                  <td class="vio" title="${violationInformation.fileName?split("#")?last}"><a href="${violationInformation.fileName}">${violationInformation.fileName?split("#")?last}</a></td>
+              [#else]
+                   <td class="vio" title="${violationInformation.fileName?split("#")?last}">${violationInformation.fileName?split("#")?last?split("/")?last}</td>
+              [/#if]
+                  <td class="vio textRight">${violationInformation.numberOfViolations?string('0')}</td>
+              </tr>
+          [/#list]
+      [#else]
+          <tr>
+              <td>No violators found.</td>
+          </tr>
+      [/#if]
+    </table>
+    [/@ui.bambooSection]
+    [/#if]
 	</body>
 </html>

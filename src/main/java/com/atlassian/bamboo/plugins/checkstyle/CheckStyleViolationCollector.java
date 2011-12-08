@@ -6,7 +6,7 @@ package com.atlassian.bamboo.plugins.checkstyle;
 import com.atlassian.bamboo.charts.collater.TimePeriodCollater;
 import com.atlassian.bamboo.plugins.checkstyle.charts.AbstractMultiSeriesTimePeriodCollector;
 import com.atlassian.bamboo.plugins.checkstyle.collators.CheckStyleLineRateViolationCollator;
-import com.atlassian.bamboo.resultsummary.BuildResultsSummary;
+import com.atlassian.bamboo.resultsummary.ResultsSummary;
 
 /************************************************************************************************************
  * CheckStyleViolationCollector.
@@ -18,7 +18,7 @@ public class CheckStyleViolationCollector extends AbstractMultiSeriesTimePeriodC
   // === PROPERTIES
   // =======================================================================================================
   
-  protected String[] getSeriesKeys(BuildResultsSummary summary) {
+  protected String[] getSeriesKeys(ResultsSummary summary) {
     return new String[] { "total", "error", "warning", "info" };
   }
   

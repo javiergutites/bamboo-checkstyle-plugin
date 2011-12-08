@@ -5,8 +5,8 @@ package com.atlassian.bamboo.plugins.checkstyle;
 
 import java.util.Map;
 
-import com.atlassian.bamboo.build.Build;
-import com.atlassian.bamboo.build.BuildManager;
+import com.atlassian.bamboo.plan.Plan;
+import com.atlassian.bamboo.plan.PlanManager;
 import com.atlassian.plugin.PluginParseException;
 import com.atlassian.plugin.web.Condition;
 
@@ -21,7 +21,7 @@ public class CheckStyleBuildWebItemCondition
     // =======================================================================================================
     // === ATTRIBUTES
     // =======================================================================================================
-    private BuildManager buildManager;
+    private PlanManager planManager;
 
     // =======================================================================================================
     // === METHODS
@@ -43,11 +43,6 @@ public class CheckStyleBuildWebItemCondition
     // === PROPERTIES
     // =======================================================================================================
 
-    public void setBuildManager( BuildManager buildManager )
-    {
-        this.buildManager = buildManager;
-    }
-
     @SuppressWarnings( "unchecked" )
     public boolean shouldDisplay( Map context )
     {
@@ -58,7 +53,7 @@ public class CheckStyleBuildWebItemCondition
         {
             return false;
         }
-        Build build = buildManager.getBuildByKey( buildKey );
+        Plan build = planManager.getPlanByKey(buildKey);
         if ( build == null )
         {
             return false;
@@ -66,5 +61,10 @@ public class CheckStyleBuildWebItemCondition
 
         Map<String, String> customConfiguration = build.getBuildDefinition().getCustomConfiguration();
         return CheckstylePluginHelper.isPluginActivated( customConfiguration );
+    }
+
+    public void setPlanManager(PlanManager planManager)
+    {
+        this.planManager = planManager;
     }
 }

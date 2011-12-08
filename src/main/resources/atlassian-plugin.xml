@@ -58,14 +58,14 @@
     </package>
   </xwork>
   
-  <web-item key="CheckStyle:${buildKey}-${buildNumber}" name="checkstyle" section="results.subMenu/results" weight="70">
+  <web-item key="CheckStyle:${planKey}-${buildNumber}" name="checkstyle" section="results.subMenu/results" weight="70">
     <label key="CheckStyle"/>
-    <link linkId="CheckStyle:${buildKey}-${buildNumber}">/build/viewCheckStyleResult.action?buildKey=${buildKey}&amp;buildNumber=${buildNumber}</link>
+    <link linkId="CheckStyle:${planKey}-${buildNumber}">/build/viewCheckStyleResult.action?planKey=${planKey}&amp;buildNumber=${buildNumber}</link>
     <condition class="com.atlassian.bamboo.plugins.checkstyle.CheckStyleResultWebItemCondition" />
   </web-item>
-  <web-item key="CheckStyle:${buildKey}" name="checkstyle" section="build.subMenu/build" weight="80">
+  <web-item key="CheckStyle:${planKey}" name="checkstyle" section="build.subMenu/build" weight="80">
     <label key="CheckStyle"/>
-    <link linkId="CheckStyle:${buildKey}">/build/viewCheckStyleSummary.action?buildKey=${buildKey}</link>
+    <link linkId="CheckStyle:${planKey}">/build/viewCheckStyleSummary.action?planKey=${planKey}</link>
     <condition class="com.atlassian.bamboo.plugins.checkstyle.CheckStyleBuildWebItemCondition"/>
   </web-item>
 </atlassian-plugin>

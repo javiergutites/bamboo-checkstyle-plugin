@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.atlassian.bamboo.resultsummary.ResultsSummary;
 import org.jfree.data.general.Dataset;
 import org.jfree.data.time.RegularTimePeriod;
 import org.jfree.data.time.TimeTableXYDataset;
@@ -40,8 +41,8 @@ public abstract class AbstractMultiSeriesTimePeriodCollector extends AbstractTim
   public Dataset getDataset() {
     Map<String, TimePeriodCollater> seriesToPeriodMap = new HashMap<String, TimePeriodCollater>();
     TimeTableXYDataset dataset = new TimeTableXYDataset();
-    for (Iterator<BuildResultsSummary> iterator = getResultsList().iterator(); iterator.hasNext();) {
-      BuildResultsSummary summary = iterator.next();
+    for (ResultsSummary summary : getResultsList())
+    {
       String[] seriesKeys = getSeriesKeys(summary);
       if (seriesKeys != null) {
         for (int i = 0; (i < seriesKeys.length); i++) {
@@ -75,5 +76,5 @@ public abstract class AbstractMultiSeriesTimePeriodCollector extends AbstractTim
     return dataset;
   }
   
-  protected abstract String[] getSeriesKeys(BuildResultsSummary summary);
+  protected abstract String[] getSeriesKeys(ResultsSummary summary);
 }

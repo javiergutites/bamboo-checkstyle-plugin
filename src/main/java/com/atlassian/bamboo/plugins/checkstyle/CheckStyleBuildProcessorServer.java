@@ -2,13 +2,12 @@ package com.atlassian.bamboo.plugins.checkstyle;
 
 import java.util.Map;
 
+import com.atlassian.bamboo.plan.PlanManager;
+import com.atlassian.bamboo.resultsummary.ResultsSummary;
+import com.atlassian.bamboo.resultsummary.ResultsSummaryManager;
 import org.apache.log4j.Logger;
 
-import com.atlassian.bamboo.build.Build;
-import com.atlassian.bamboo.build.BuildManager;
 import com.atlassian.bamboo.build.CustomBuildProcessorServer;
-import com.atlassian.bamboo.resultsummary.BuildResultsSummaryManager;
-import com.atlassian.bamboo.resultsummary.ExtendedBuildResultsSummary;
 import com.atlassian.bamboo.v2.build.BuildContext;
 
 /**
@@ -26,11 +25,8 @@ public class CheckStyleBuildProcessorServer
 
     private BuildContext buildContext;
 
-    /** Injected by Spring BuildResultsSummaryManager */
-    private BuildResultsSummaryManager buildResultsSummaryManager;
-    /** Injected by Spring BuildManager */
-    private BuildManager buildManager;
-    
+    private ResultsSummaryManager resultsSummaryManager;
+
     /**
      * @see com.atlassian.bamboo.v2.build.task.BuildTask#call()
      */
@@ -64,10 +60,8 @@ public class CheckStyleBuildProcessorServer
         {
             CheckStyleInformation currentInformation = new CheckStyleInformation( result );
 
-            Build build = getBuildManager().getBuildByKey(buildContext.getPlanKey());
-            
-            ExtendedBuildResultsSummary previousSummary =
-                getBuildResultsSummaryManager().getLastBuildSummary( build );
+            ResultsSummary previousSummary =
+                resultsSummaryManager.getLastResultsSummary(buildContext.getPlanKey(), ResultsSummary.class );
             
             //calculate delta only if an previous build is present
             if (previousSummary != null) {
@@ -82,35 +76,8 @@ public class CheckStyleBuildProcessorServer
         }
     }
 
-    /**
-     * @param buildManager the buildManager to set
-     */
-    public void setBuildManager( BuildManager buildManager )
+    public void setResultsSummaryManager(ResultsSummaryManager resultsSummaryManager)
     {
-        this.buildManager = buildManager;
-    }
-
-    /**
-     * @return the buildManager
-     */
-    public BuildManager getBuildManager()
-    {
-        return buildManager;
-    }
-
-    /**
-     * @param buildResultsSummaryManager the buildResultsSummaryManager to set
-     */
-    public void setBuildResultsSummaryManager( BuildResultsSummaryManager buildResultsSummaryManager )
-    {
-        this.buildResultsSummaryManager = buildResultsSummaryManager;
-    }
-
-    /**
-     * @return the buildResultsSummaryManager
-     */
-    public BuildResultsSummaryManager getBuildResultsSummaryManager()
-    {
-        return buildResultsSummaryManager;
+        this.resultsSummaryManager = resultsSummaryManager;
     }
 }

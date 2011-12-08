@@ -1,6 +1,7 @@
 <html>
 <head>
 	<title> [@ui.header pageKey='CheckStyle Summary' object='${build.name}' title=true /]</title>
+	<meta name="decorator" content="plan">
 </head>
 
 <body>

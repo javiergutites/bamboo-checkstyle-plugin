@@ -5,7 +5,7 @@ package com.atlassian.bamboo.plugins.checkstyle.charts;
 
 import com.atlassian.bamboo.charts.collater.TimePeriodCollater;
 import com.atlassian.bamboo.plugins.checkstyle.collators.TimePeriodCheckStyleDeltaCollater;
-import com.atlassian.bamboo.resultsummary.BuildResultsSummary;
+import com.atlassian.bamboo.resultsummary.ResultsSummary;
 
 /************************************************************************************************************
  * ViewCheckStyleSummary.
@@ -17,12 +17,8 @@ public class CheckStyleDeltaByAuthorCollector extends AbstractMultiSeriesTimePer
   // === PROPERTIES
   // =======================================================================================================
   
-  protected String[] getSeriesKeys(BuildResultsSummary summary) {
-    String[] authors = null;
-    if ((summary.getChangedByAuthors() != null) && (summary.getChangedByAuthors().length() > 0)) {
-      authors = TimePeriodCheckStyleDeltaCollater.parseAuthors(summary.getChangedByAuthors());
-    }
-    return authors;
+  protected String[] getSeriesKeys(ResultsSummary summary) {
+    return TimePeriodCheckStyleDeltaCollater.authorsToStrings(summary.getUniqueAuthors());
   }
   
   protected TimePeriodCollater getCollater() {

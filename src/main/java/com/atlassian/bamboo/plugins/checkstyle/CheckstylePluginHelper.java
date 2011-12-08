@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.atlassian.bamboo.resultsummary.ResultsSummary;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.io.FilenameUtils;
@@ -18,8 +19,6 @@ import org.apache.commons.lang.math.NumberUtils;
 
 import com.atlassian.bamboo.build.logger.BuildLogger;
 import com.atlassian.bamboo.builder.BuildState;
-import com.atlassian.bamboo.results.BuildResults;
-import com.atlassian.bamboo.resultsummary.BuildResultsSummary;
 import com.atlassian.bamboo.v2.build.BuildContext;
 import com.atlassian.bamboo.ww2.actions.build.admin.create.BuildConfiguration;
 
@@ -53,19 +52,10 @@ public class CheckstylePluginHelper
     }
 
     /**
-     * @param buildResults a result of a build
+     * @param summary a result of a build
      * @return true if the build has checkstyle results
      */
-    public static boolean hasCheckstyleResults( BuildResults buildResults )
-    {
-        return hasCheckstyleResults( buildResults.getBuildResultsSummary());
-    }
-    
-    /**
-     * @param buildResults a result of a build
-     * @return true if the build has checkstyle results
-     */
-    public static boolean hasCheckstyleResults( BuildResultsSummary summary )
+    public static boolean hasCheckstyleResults( ResultsSummary summary )
     {
         if ( summary == null )
         {
@@ -219,7 +209,7 @@ public class CheckstylePluginHelper
         BuildContext context, Map<String, String> checkstyleResults, String type, BuildLogger buildLogger)
     {
 
-        Map<String, String> customConfiguration = context.getBuildPlanDefinition().getCustomConfiguration();
+        Map<String, String> customConfiguration = context.getBuildDefinition().getCustomConfiguration();
         String thresholdName = ICheckStyleBuildProcessor.CHECKSTYLE_ERROR_PRIORITY_THRESHOLD;
         String violationName = ICheckStyleBuildProcessor.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS;
         if ( "warning".equals( type ) )

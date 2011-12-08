@@ -5,8 +5,11 @@ package com.atlassian.bamboo.plugins.checkstyle;
 
 import java.util.Map;
 
+import com.atlassian.bamboo.plan.PlanKeys;
+import com.atlassian.bamboo.plan.PlanResultKey;
 import com.atlassian.bamboo.resultsummary.BuildResultsSummary;
-import com.atlassian.bamboo.resultsummary.BuildResultsSummaryManager;
+import com.atlassian.bamboo.resultsummary.ResultsSummary;
+import com.atlassian.bamboo.resultsummary.ResultsSummaryManager;
 import com.atlassian.plugin.PluginParseException;
 import com.atlassian.plugin.web.Condition;
 
@@ -22,7 +25,7 @@ public class CheckStyleResultWebItemCondition
     // === ATTRIBUTES
     // =======================================================================================================
     /** Injected by Spring */
-    private BuildResultsSummaryManager buildResultsSummaryManager;
+    private ResultsSummaryManager resultsSummaryManager;
 
     // =======================================================================================================
     // === METHODS
@@ -58,7 +61,8 @@ public class CheckStyleResultWebItemCondition
         }
         
         int buildNumber = Integer.parseInt(buildNumberString);
-        BuildResultsSummary buildResults = buildResultsSummaryManager.getBuildResultsSummary(buildKey, buildNumber);
+        PlanResultKey planResultKey = PlanKeys.getPlanResultKey(buildKey, buildNumber);
+        ResultsSummary buildResults = resultsSummaryManager.getResultsSummary(planResultKey);
         if ( buildResults == null )
         {
             return false;
@@ -67,8 +71,8 @@ public class CheckStyleResultWebItemCondition
         return CheckstylePluginHelper.hasCheckstyleResults( buildResults );
     }
 
-    public void setBuildResultsSummaryManager(BuildResultsSummaryManager buildResultsSummaryManager)
+    public void setResultsSummaryManager(ResultsSummaryManager resultsSummaryManager)
     {
-        this.buildResultsSummaryManager = buildResultsSummaryManager;
+        this.resultsSummaryManager = resultsSummaryManager;
     }
 }

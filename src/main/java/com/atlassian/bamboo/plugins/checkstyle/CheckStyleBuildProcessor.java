@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.atlassian.bamboo.v2.build.BuildContextHelper;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -43,7 +44,7 @@ public class CheckStyleBuildProcessor
         log.info( "Running CheckStyle BuildProcessor" );
         final Map<String, String> checkstyleResults = new HashMap<String, String>();
 
-        Map<String, String> customConfiguration = buildContext.getBuildPlanDefinition().getCustomConfiguration();
+        Map<String, String> customConfiguration = buildContext.getBuildDefinition().getCustomConfiguration();
         CurrentBuildResult buildResult = buildContext.getBuildResult();
 
         if ( CheckstylePluginHelper.isPluginActivated( customConfiguration ) )
@@ -52,8 +53,7 @@ public class CheckStyleBuildProcessor
 
             if ( !StringUtils.isEmpty( pathPattern ) )
             {
-                RepositoryV2 repositoryV2 = buildContext.getBuildPlanDefinition().getRepositoryV2();
-                File sourceDirectory = repositoryV2.getSourceCodeDirectory( buildContext.getPlanKey() );
+                File sourceDirectory = BuildContextHelper.getBuildWorkingDirectory(buildContext);
 
                 FileVisitor fileVisitor = new CheckStyleFileVisitor( sourceDirectory, checkstyleResults );
                 fileVisitor.visitFilesThatMatch( pathPattern );
