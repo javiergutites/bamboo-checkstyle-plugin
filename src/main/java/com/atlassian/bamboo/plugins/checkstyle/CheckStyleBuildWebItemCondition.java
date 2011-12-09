@@ -48,8 +48,8 @@ public class CheckStyleBuildWebItemCondition
     public boolean shouldDisplay( Map context )
     {
         String buildKey =
-            ( context.get( CheckStyleBuildProcessor.BUILD_KEY ) == null ) ? null
-                            : (String) context.get( CheckStyleBuildProcessor.BUILD_KEY );
+            ( context.get( ICheckStyleBuildProcessor.BUILD_KEY ) == null ) ? null
+                            : (String) context.get( ICheckStyleBuildProcessor.BUILD_KEY );
         if ( buildKey == null )
         {
             return false;

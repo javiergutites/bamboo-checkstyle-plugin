@@ -26,14 +26,14 @@ public class CheckStyleIndexReader implements CustomIndexReader {
    * @param buildResultsSummary
    */
   public void extractFromDocument(Document document, BuildResultsSummary buildResultsSummary) {
-    addToBuildSummary(CheckStyleBuildProcessor.CHECKSTYLE_TOTAL_VIOLATIONS, document, buildResultsSummary);
-    addToBuildSummary(CheckStyleBuildProcessor.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS, document, buildResultsSummary);
-    addToBuildSummary(CheckStyleBuildProcessor.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS, document, buildResultsSummary);
-    addToBuildSummary(CheckStyleBuildProcessor.CHECKSTYLE_INFO_PRIORITY_VIOLATIONS, document, buildResultsSummary);
-    addToBuildSummary(CheckStyleBuildProcessor.CHECKSTYLE_TOTAL_VIOLATION_DELTA, document, buildResultsSummary);
-    addToBuildSummary(CheckStyleBuildProcessor.CHECKSTYLE_ERROR_VIOLATION_DELTA, document, buildResultsSummary);
-    addToBuildSummary(CheckStyleBuildProcessor.CHECKSTYLE_WARNING_VIOLATION_DELTA, document, buildResultsSummary);
-    addToBuildSummary(CheckStyleBuildProcessor.CHECKSTYLE_INFO_VIOLATION_DELTA, document, buildResultsSummary);
+    addToBuildSummary(ICheckStyleBuildProcessor.CHECKSTYLE_TOTAL_VIOLATIONS, document, buildResultsSummary);
+    addToBuildSummary(ICheckStyleBuildProcessor.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS, document, buildResultsSummary);
+    addToBuildSummary(ICheckStyleBuildProcessor.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS, document, buildResultsSummary);
+    addToBuildSummary(ICheckStyleBuildProcessor.CHECKSTYLE_INFO_PRIORITY_VIOLATIONS, document, buildResultsSummary);
+    addToBuildSummary(ICheckStyleBuildProcessor.CHECKSTYLE_TOTAL_VIOLATION_DELTA, document, buildResultsSummary);
+    addToBuildSummary(ICheckStyleBuildProcessor.CHECKSTYLE_ERROR_VIOLATION_DELTA, document, buildResultsSummary);
+    addToBuildSummary(ICheckStyleBuildProcessor.CHECKSTYLE_WARNING_VIOLATION_DELTA, document, buildResultsSummary);
+    addToBuildSummary(ICheckStyleBuildProcessor.CHECKSTYLE_INFO_VIOLATION_DELTA, document, buildResultsSummary);
   }
   
   /********************************************************************************************************

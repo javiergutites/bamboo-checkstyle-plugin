@@ -36,7 +36,7 @@ import org.aspectj.weaver.Iterators;
 public class CheckstylePluginHelper
     implements ICheckStyleBuildProcessor
 {
-    private static final String CHECKSTYLE_TASK_PLUGIN_KEY = "com.atlassian.bamboo.plugins.checkstyle:checkStyleTask";
+    public static final String CHECKSTYLE_TASK_PLUGIN_KEY = "com.atlassian.bamboo.plugins.checkstyle:checkStyleTask";
 
     /**
      * @param job that
@@ -59,7 +59,7 @@ public class CheckstylePluginHelper
     public static boolean hasCheckstyleResults( Map<String, String> customBuildData )
     {
         return customBuildData != null
-            && customBuildData.containsKey( CheckStyleBuildProcessor.CHECKSTYLE_TOTAL_VIOLATIONS );
+            && customBuildData.containsKey( ICheckStyleBuildProcessor.CHECKSTYLE_TOTAL_VIOLATIONS );
     }
 
     /**

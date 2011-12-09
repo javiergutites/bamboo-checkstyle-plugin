@@ -30,14 +30,14 @@ public class CheckStylePostBuildIndexWriter implements CustomPostBuildIndexWrite
    */
   public void updateIndexDocument(Document document, BuildResultsSummary resultsSummary) {
     if (resultsSummary != null) {
-      addStuffToIndex(CheckStyleBuildProcessor.CHECKSTYLE_TOTAL_VIOLATIONS, document, resultsSummary);
-      addStuffToIndex(CheckStyleBuildProcessor.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS, document, resultsSummary);
-      addStuffToIndex(CheckStyleBuildProcessor.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS, document, resultsSummary);
-      addStuffToIndex(CheckStyleBuildProcessor.CHECKSTYLE_INFO_PRIORITY_VIOLATIONS, document, resultsSummary);
-      addStuffToIndex(CheckStyleBuildProcessor.CHECKSTYLE_TOTAL_VIOLATION_DELTA, document, resultsSummary);
-      addStuffToIndex(CheckStyleBuildProcessor.CHECKSTYLE_ERROR_VIOLATION_DELTA, document, resultsSummary);
-      addStuffToIndex(CheckStyleBuildProcessor.CHECKSTYLE_WARNING_VIOLATION_DELTA, document, resultsSummary);
-      addStuffToIndex(CheckStyleBuildProcessor.CHECKSTYLE_INFO_VIOLATION_DELTA, document, resultsSummary);
+      addStuffToIndex(ICheckStyleBuildProcessor.CHECKSTYLE_TOTAL_VIOLATIONS, document, resultsSummary);
+      addStuffToIndex(ICheckStyleBuildProcessor.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS, document, resultsSummary);
+      addStuffToIndex(ICheckStyleBuildProcessor.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS, document, resultsSummary);
+      addStuffToIndex(ICheckStyleBuildProcessor.CHECKSTYLE_INFO_PRIORITY_VIOLATIONS, document, resultsSummary);
+      addStuffToIndex(ICheckStyleBuildProcessor.CHECKSTYLE_TOTAL_VIOLATION_DELTA, document, resultsSummary);
+      addStuffToIndex(ICheckStyleBuildProcessor.CHECKSTYLE_ERROR_VIOLATION_DELTA, document, resultsSummary);
+      addStuffToIndex(ICheckStyleBuildProcessor.CHECKSTYLE_WARNING_VIOLATION_DELTA, document, resultsSummary);
+      addStuffToIndex(ICheckStyleBuildProcessor.CHECKSTYLE_INFO_VIOLATION_DELTA, document, resultsSummary);
     }
   }
   

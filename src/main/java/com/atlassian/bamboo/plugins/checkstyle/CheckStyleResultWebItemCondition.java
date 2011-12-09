@@ -50,11 +50,11 @@ public class CheckStyleResultWebItemCondition
     public boolean shouldDisplay( Map context )
     {
         String buildKey =
-            ( context.get( CheckStyleBuildProcessor.BUILD_KEY ) == null ) ? null
-                            : (String) context.get( CheckStyleBuildProcessor.BUILD_KEY );
+            ( context.get( ICheckStyleBuildProcessor.BUILD_KEY ) == null ) ? null
+                            : (String) context.get( ICheckStyleBuildProcessor.BUILD_KEY );
         String buildNumberString =
-            ( context.get( CheckStyleBuildProcessor.BUILD_NUMBER ) == null ) ? null
-                            : (String) context.get( CheckStyleBuildProcessor.BUILD_NUMBER );
+            ( context.get( ICheckStyleBuildProcessor.BUILD_NUMBER ) == null ) ? null
+                            : (String) context.get( ICheckStyleBuildProcessor.BUILD_NUMBER );
         if ( ( buildKey == null ) || ( buildNumberString == null ) )
         {
             return false;
