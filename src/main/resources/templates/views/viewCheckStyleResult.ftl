@@ -1,28 +1,27 @@
 <html>
 	<head>
 		<title> [@ui.header pageKey='CheckStyle' object='${build.name} ${buildResults.buildNumber}' title=true /]</title>
-		<meta name="decorator" content="result">
+		<meta name="tab" content="checkstyle"/>
 	</head>
 	<body>
-    [@cp.resultsSubMenu selectedTab='checkstyle' /]
     [#assign customDataMap=buildResults.buildResultsSummary.customBuildData /]
     
 <style type="text/css">
-    table.flexi {
+    #summary-table {
         width: auto;
     }
 
-    table.grid {
+    #summary-table {
         margin-top: 10px;
         margin-left: 2px;
     }
 
-    table.grid th {
+    #summary-table th {
         font-weight: bold;
         text-align: center;
     }
 
-    table.grid th.textLeft {
+    #summary-table th.textLeft {
         text-align: left;
     }
 
@@ -30,48 +29,48 @@
         text-align: right;
     }
 
-    table.grid tr.High th {
+    #summary-table tr.High th {
         background-color: #ff9999;
         color: #000;
         text-align: left;
     }
 
-    table.grid tr.High td {
+    #summary-table tr.High td {
         background-color: #ff9999;
         color: #000;
         text-align: right;
     }
 
-    table.grid tr.Medium th {
+    #summary-table tr.Medium th {
         background-color: #ffcc99;
         color: #000;
         text-align: left;
     }
 
-    table.grid tr.Medium td {
+    #summary-table tr.Medium td {
         background-color: #ffcc99;
         color: #000;
         text-align: right;
     }
 
-    table.grid tr.Low th {
+    #summary-table tr.Low th {
         background-color: #ffffcc;
         color: #000;
         text-align: left;
     }
 
-    table.grid tr.Low td {
+    #summary-table tr.Low td {
         background-color: #ffffcc;
         color: #000;
         text-align: right;
     }
 
-    table.grid tr td.vio {
+    #summary-table tr td.vio {
         background-color: #ff9999;
         color: #000000;
     }
 
-    table.grid tr td.fixed {
+    #summary-table tr td.fixed {
         background-color: #a6dba6;
         color: #000000;
     }
@@ -90,11 +89,11 @@
 </style>
 
     [@ui.bambooSection title="Summary"]
-    <table class="aui">
+    <table class="aui" id="summary-table">
         <tr>
             <th>Priority</th>
             <th>Violations</th>
-            <th>&Delta;</th>
+            <th>&Delta; Delta</th>
         </tr>
 
         <tr class="High">
@@ -124,7 +123,7 @@
     [/@ui.bambooSection]
 
     [#if !topViolations.isEmpty()]
-    [@ui.bambooSection title="Violation"]
+    [@ui.bambooSection title="Violations"]
     <table class="aui">
       [#if !topViolations.isEmpty()]
           <tr>

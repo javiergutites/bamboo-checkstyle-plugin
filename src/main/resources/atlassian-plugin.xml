@@ -28,22 +28,24 @@
   </indexReader>
 
   <!-- untested -->
-  <!--<report key="checkstyleViolations" name="CheckStyle Violations" class="com.atlassian.bamboo.plugins.checkstyle.CheckStyleViolationCollector">-->
-    <!--<description></description>-->
-    <!--<chartClass>com.atlassian.bamboo.plugins.checkstyle.charts.ViolationSummaryLineChart</chartClass>-->
-  <!--</report>-->
-  <!---->
-  <!--<report key="authorCheckStyleDelta" name="CheckStyle Violation Change By Author" class="com.atlassian.bamboo.plugins.checkstyle.charts.CheckStyleDeltaByAuthorCollector">-->
-    <!--<description></description>-->
-    <!--<chartClass>com.atlassian.bamboo.plugins.checkstyle.charts.CheckStyleDeltaByAuthorLineChart</chartClass>-->
-  <!--</report>-->
+  <report key="checkstyleViolations" name="CheckStyle Violations" class="com.atlassian.bamboo.plugins.checkstyle.CheckStyleViolationCollector">
+    <description></description>
+    <chartClass>com.atlassian.bamboo.plugins.checkstyle.charts.ViolationSummaryLineChart</chartClass>
+  </report>
+
+  <report key="authorCheckStyleDelta" name="CheckStyle Violation Change By Author" class="com.atlassian.bamboo.plugins.checkstyle.charts.CheckStyleDeltaByAuthorCollector">
+    <description></description>
+    <chartClass>com.atlassian.bamboo.plugins.checkstyle.charts.CheckStyleDeltaByAuthorLineChart</chartClass>
+  </report>
   
   <xwork key="viewCheckStyleResult" name="View CheckStyle Result">
-    <package name="checkstylePlugin" extends="buildView">
+    <package name="checkstylePlugin" extends="buildResultView">
       <action name="viewCheckStyleResult" class="com.atlassian.bamboo.plugins.checkstyle.actions.ViewCheckStyleBuildResults">
         <result name="success" type="freemarker">/templates/views/viewCheckStyleResult.ftl</result>
         <result name="error" type="freemarker">/error.ftl</result>
       </action>
+    </package>
+    <package name="checkstyleSummary" extends="buildView">
       <action name="viewCheckStyleSummary" class="com.atlassian.bamboo.plugins.checkstyle.actions.ViewCheckStyleSummary">
         <result name="success" type="freemarker">/templates/views/viewCheckStyleSummary.ftl</result>
         <result name="error" type="freemarker">/error.ftl</result>
@@ -61,7 +63,7 @@
   
   <web-item key="CheckStyle:${planKey}-${buildNumber}" name="checkstyle" section="results.subMenu/results" weight="70">
     <label key="CheckStyle"/>
-    <link linkId="CheckStyle:${planKey}-${buildNumber}">/build/viewCheckStyleResult.action?planKey=${planKey}&amp;buildNumber=${buildNumber}</link>
+    <link linkId="CheckStyle:${planKey}-${buildNumber}">/build/result/viewCheckStyleResult.action?planKey=${planKey}&amp;buildNumber=${buildNumber}</link>
     <condition class="com.atlassian.bamboo.plugins.checkstyle.CheckStyleResultWebItemCondition" />
   </web-item>
   <web-item key="CheckStyle:${planKey}" name="checkstyle" section="build.subMenu/build" weight="80">
