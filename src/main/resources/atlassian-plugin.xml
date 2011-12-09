@@ -1,4 +1,7 @@
-<atlassian-plugin key="com.atlassian.bamboo.plugins.checkstyle" name="Bamboo CheckStyle Plugin" plugins-version="2">
+<atlassian-plugin key="com.atlassian.bamboo.plugins.checkstyle" name="Bamboo CheckStyle Plugin" plugins-version="1">
+
+  <!-- there is a bug in the reports and reports collector module that prevents the use of plugins v2 -->
+
   <plugin-info>
     <description>${pom.name}</description>
     <version>${pom.version}</version>
