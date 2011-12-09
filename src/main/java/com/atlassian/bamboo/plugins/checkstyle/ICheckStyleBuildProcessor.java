@@ -1,5 +1,7 @@
 package com.atlassian.bamboo.plugins.checkstyle;
 
+import com.atlassian.bamboo.plugins.checkstyle.tasks.CheckStyleTaskConfigurator;
+
 /**
  * Interface for share the common constants
  * 
@@ -7,13 +9,9 @@ package com.atlassian.bamboo.plugins.checkstyle;
  */
 public interface ICheckStyleBuildProcessor {
 
-  public static final String CHECKSTYLE_PATH = "custom.checkstyle.path";
-  public static final String CHECKSTYLE_EXISTS = "custom.checkstyle.exists";
-  public static final String CHECKSTYLE_SITE_URL = "custom.checkstyle.site.url";
-  public static final String CHECKSTYLE_ERROR_PRIORITY_THRESHOLD = "custom.checkstyle.threshold.error";
-  public static final String CHECKSTYLE_WARNING_PRIORITY_THRESHOLD = "custom.checkstyle.threshold.warning";
+    public static final String CHECKSTYLE_EXISTS = "custom.checkstyle.exists";
 
-  public static final String CHECKSTYLE_XML_PATH_KEY = CHECKSTYLE_PATH;
+    public static final String CHECKSTYLE_XML_PATH_KEY = CheckStyleTaskConfigurator.CHECKSTYLE_PATH;
 
   public static final String CHECKSTYLE_TOTAL_VIOLATION_DELTA = "CHECKSTYLE_TOTAL_VIOLATION_DELTA";
   public static final String CHECKSTYLE_ERROR_VIOLATION_DELTA = "CHECKSTYLE_ERROR_VIOLATION_DELTA";

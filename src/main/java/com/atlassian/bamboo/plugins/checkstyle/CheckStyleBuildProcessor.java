@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.atlassian.bamboo.plugins.checkstyle.tasks.CheckStyleTaskConfigurator;
 import com.atlassian.bamboo.v2.build.BuildContextHelper;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -18,12 +19,11 @@ import com.atlassian.bamboo.utils.error.SimpleErrorCollection;
 import com.atlassian.bamboo.v2.build.BaseConfigurableBuildPlugin;
 import com.atlassian.bamboo.v2.build.BuildContext;
 import com.atlassian.bamboo.v2.build.CurrentBuildResult;
-import com.atlassian.bamboo.v2.build.repository.RepositoryV2;
 import com.atlassian.bamboo.ww2.actions.build.admin.create.BuildConfiguration;
 
 /**
  * CheckStyleBuildProcessor collect all checkstyle result.
- * 
+ *
  * @author lauvigne
  */
 public class CheckStyleBuildProcessor
@@ -60,7 +60,7 @@ public class CheckStyleBuildProcessor
 
                 if ( !checkstyleResults.isEmpty() )
                 {
-                    if (StringUtils.isNotBlank( customConfiguration.get( CHECKSTYLE_SITE_URL ) ) ) {
+                    if (StringUtils.isNotBlank( customConfiguration.get( CheckStyleTaskConfigurator.CHECKSTYLE_SITE_URL ) ) ) {
                         // Transform filename in http checkstyle report
                         CheckstylePluginHelper.transformFilenameInHttpURL( sourceDirectory, customConfiguration, checkstyleResults );
                     }
@@ -87,15 +87,15 @@ public class CheckStyleBuildProcessor
     {
         ErrorCollection ec = new SimpleErrorCollection();
         if ( configuration.getBoolean( CHECKSTYLE_EXISTS )
-                && StringUtils.isBlank( configuration.getString( CHECKSTYLE_PATH ) ) )
+                && StringUtils.isBlank( configuration.getString( CheckStyleTaskConfigurator.CHECKSTYLE_PATH ) ) )
         {
-            ec.addError( CHECKSTYLE_PATH, "Please specify the directory containing the XML CheckStyle output files." );
+            ec.addError( CheckStyleTaskConfigurator.CHECKSTYLE_PATH, "Please specify the directory containing the XML CheckStyle output files." );
         }
 
         String msgValid = CheckstylePluginHelper.validCheckstyleURL( configuration );
         if ( msgValid != null )
         {
-            ec.addError( CHECKSTYLE_PATH, "Base HTTP URL is invalid  :" + msgValid );
+            ec.addError( CheckStyleTaskConfigurator.CHECKSTYLE_PATH, "Base HTTP URL is invalid  :" + msgValid );
         }
 
         return ec;
@@ -106,11 +106,11 @@ public class CheckStyleBuildProcessor
      */
     public void addDefaultValues(@NotNull BuildConfiguration buildConfiguration)
     {
-        if (buildConfiguration.getProperty( CHECKSTYLE_PATH ) == null) {
-            buildConfiguration.setProperty( CHECKSTYLE_PATH, "**/target/checkstyle-result.xml" );
+        if (buildConfiguration.getProperty( CheckStyleTaskConfigurator.CHECKSTYLE_PATH ) == null) {
+            buildConfiguration.setProperty( CheckStyleTaskConfigurator.CHECKSTYLE_PATH, "**/target/checkstyle-result.xml" );
         }
     }
-    
+
 
     ///CLOVER:OFF
     public void setBuildLoggerManager( BuildLoggerManager buildLoggerManager )

@@ -22,7 +22,7 @@ public class CheckStyleFileVisitor
     // === CONSTRUCTOR
     // ==========================================================
     // =========================
-    protected CheckStyleFileVisitor( File file, Map<String, String> results )
+    public CheckStyleFileVisitor( File file, Map<String, String> results )
     {
         super( file );
         this.results = results;

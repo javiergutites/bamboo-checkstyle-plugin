@@ -5,6 +5,7 @@ package com.atlassian.bamboo.plugins.checkstyle;
 
 import java.util.Map;
 
+import com.atlassian.bamboo.build.Job;
 import com.atlassian.bamboo.plan.Plan;
 import com.atlassian.bamboo.plan.PlanManager;
 import com.atlassian.plugin.PluginParseException;
@@ -53,14 +54,14 @@ public class CheckStyleBuildWebItemCondition
         {
             return false;
         }
-        Plan build = planManager.getPlanByKey(buildKey);
+
+        Job build = planManager.getPlanByKey(buildKey, Job.class);
         if ( build == null )
         {
             return false;
         }
 
-        Map<String, String> customConfiguration = build.getBuildDefinition().getCustomConfiguration();
-        return CheckstylePluginHelper.isPluginActivated( customConfiguration );
+        return CheckstylePluginHelper.isPluginActivated( build );
     }
 
     public void setPlanManager(PlanManager planManager)

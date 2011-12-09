@@ -1,19 +1,19 @@
-<atlassian-plugin key="com.atlassian.bamboo.plugins.checkstyle" name="Bamboo CheckStyle Plugin">
+<atlassian-plugin key="com.atlassian.bamboo.plugins.checkstyle" name="Bamboo CheckStyle Plugin" plugins-version="2">
   <plugin-info>
     <description>${pom.name}</description>
     <version>${pom.version}</version>
-    <application-version min="2.0" max="2.0"/>
     <vendor name="${pom.organization.name}" url="${pom.organization.url}"/>
   </plugin-info>
+
+  <taskType key="checkStyleTask" name="CheckStyle Report" class="com.atlassian.bamboo.plugins.checkstyle.tasks.CheckStyleTask">
+      <description>Parses a CheckStyle report and reports violations</description>
+      <configuration class="com.atlassian.bamboo.plugins.checkstyle.tasks.CheckStyleTaskConfigurator"/>
+        <resource type="freemarker" name="edit" location="templates/buildProcessor/checkstyleProcessorEdit.ftl"/>
+        <resource type="freemarker" name="view" location="templates/buildProcessor/checkstyleProcessorView.ftl"/>
+        <resource type="download" name="icon" location="logo.png"/>
+  </taskType>
   
-  <buildProcessor key="checkstyleBuildProcessor" name="CheckStyle Result Collector" class="com.atlassian.bamboo.plugins.checkstyle.CheckStyleBuildProcessor">
-    <skipIfFailed>false</skipIfFailed>    
-    <resource type="freemarker" name="edit" location="templates/buildProcessor/checkstyleProcessorEdit.ftl"/>
-    <resource type="freemarker" name="view" location="templates/buildProcessor/checkstyleProcessorView.ftl"/>
-    <description>CheckStyle report parser and data collector</description>
-  </buildProcessor>
-  
-   <buildProcessorServer key="checkstyleBuildProcessorServer" name="CheckStyle Delta Calculator"
+  <buildProcessorServer key="checkstyleBuildProcessorServer" name="CheckStyle Delta Calculator"
                   class="com.atlassian.bamboo.plugins.checkstyle.CheckStyleBuildProcessorServer">
     <skipIfFailed>false</skipIfFailed>
     <description>A server side CheckStyle report parser and data collector</description>
@@ -26,16 +26,17 @@
   <indexReader key="checkstyleIndexReader" name="Reads CheckStyle result values from index" class="com.atlassian.bamboo.plugins.checkstyle.CheckStyleIndexReader">
     <description>Reads the CheckStyle result from an index document and populates into build result summary</description>
   </indexReader>
-  
-  <report key="checkstyleViolations" name="CheckStyle Violations" class="com.atlassian.bamboo.plugins.checkstyle.CheckStyleViolationCollector">
-    <description></description>
-    <chartClass>com.atlassian.bamboo.plugins.checkstyle.charts.ViolationSummaryLineChart</chartClass>
-  </report>
-  
-  <report key="authorCheckStyleDelta" name="CheckStyle Violation Change By Author" class="com.atlassian.bamboo.plugins.checkstyle.charts.CheckStyleDeltaByAuthorCollector">
-    <description></description>
-    <chartClass>com.atlassian.bamboo.plugins.checkstyle.charts.CheckStyleDeltaByAuthorLineChart</chartClass>
-  </report>
+
+  <!-- untested -->
+  <!--<report key="checkstyleViolations" name="CheckStyle Violations" class="com.atlassian.bamboo.plugins.checkstyle.CheckStyleViolationCollector">-->
+    <!--<description></description>-->
+    <!--<chartClass>com.atlassian.bamboo.plugins.checkstyle.charts.ViolationSummaryLineChart</chartClass>-->
+  <!--</report>-->
+  <!---->
+  <!--<report key="authorCheckStyleDelta" name="CheckStyle Violation Change By Author" class="com.atlassian.bamboo.plugins.checkstyle.charts.CheckStyleDeltaByAuthorCollector">-->
+    <!--<description></description>-->
+    <!--<chartClass>com.atlassian.bamboo.plugins.checkstyle.charts.CheckStyleDeltaByAuthorLineChart</chartClass>-->
+  <!--</report>-->
   
   <xwork key="viewCheckStyleResult" name="View CheckStyle Result">
     <package name="checkstylePlugin" extends="buildView">
