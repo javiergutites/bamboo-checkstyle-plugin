@@ -1,0 +1,77 @@
+<atlassian-plugin key="com.atlassian.bamboo.plugins.checkstyle" name="Bamboo CheckStyle Plugin" plugins-version="1">
+
+  <!-- there is a bug in the reports and reports collector module that prevents the use of plugins v2 -->
+
+  <plugin-info>
+    <description>${pom.name}</description>
+    <version>${pom.version}</version>
+    <vendor name="${pom.organization.name}" url="${pom.organization.url}"/>
+  </plugin-info>
+
+  <taskType key="checkStyleTask" name="CheckStyle Report" class="com.atlassian.bamboo.plugins.checkstyle.tasks.CheckStyleTask">
+      <description>Parses a CheckStyle report and reports violations</description>
+      <configuration class="com.atlassian.bamboo.plugins.checkstyle.tasks.CheckStyleTaskConfigurator"/>
+        <resource type="freemarker" name="edit" location="templates/buildProcessor/checkstyleProcessorEdit.ftl"/>
+        <resource type="freemarker" name="view" location="templates/buildProcessor/checkstyleProcessorView.ftl"/>
+        <resource type="download" name="icon" location="logo.png"/>
+  </taskType>
+  
+  <buildProcessorServer key="checkstyleBuildProcessorServer" name="CheckStyle Delta Calculator"
+                  class="com.atlassian.bamboo.plugins.checkstyle.CheckStyleBuildProcessorServer">
+    <skipIfFailed>false</skipIfFailed>
+    <description>A server side CheckStyle report parser and data collector</description>
+  </buildProcessorServer>
+  
+  <postBuildIndexWriter key="checkstyleIndexWriter" name="Write the CheckStyle Result to Index" class="com.atlassian.bamboo.plugins.checkstyle.CheckStylePostBuildIndexWriter">
+    <description>Writes the CheckStyle result in a build results to an index document</description>
+  </postBuildIndexWriter>
+  
+  <indexReader key="checkstyleIndexReader" name="Reads CheckStyle result values from index" class="com.atlassian.bamboo.plugins.checkstyle.CheckStyleIndexReader">
+    <description>Reads the CheckStyle result from an index document and populates into build result summary</description>
+  </indexReader>
+
+  <!-- untested -->
+  <report key="checkstyleViolations" name="CheckStyle Violations" class="com.atlassian.bamboo.plugins.checkstyle.CheckStyleViolationCollector">
+    <description></description>
+    <chartClass>com.atlassian.bamboo.plugins.checkstyle.charts.ViolationSummaryLineChart</chartClass>
+  </report>
+
+  <report key="authorCheckStyleDelta" name="CheckStyle Violation Change By Author" class="com.atlassian.bamboo.plugins.checkstyle.charts.CheckStyleDeltaByAuthorCollector">
+    <description></description>
+    <chartClass>com.atlassian.bamboo.plugins.checkstyle.charts.CheckStyleDeltaByAuthorLineChart</chartClass>
+  </report>
+  
+  <xwork key="viewCheckStyleResult" name="View CheckStyle Result">
+    <package name="checkstylePlugin" extends="buildResultView">
+      <action name="viewCheckStyleResult" class="com.atlassian.bamboo.plugins.checkstyle.actions.ViewCheckStyleBuildResults">
+        <result name="success" type="freemarker">/templates/views/viewCheckStyleResult.ftl</result>
+        <result name="error" type="freemarker">/error.ftl</result>
+      </action>
+    </package>
+    <package name="checkstyleSummary" extends="buildView">
+      <action name="viewCheckStyleSummary" class="com.atlassian.bamboo.plugins.checkstyle.actions.ViewCheckStyleSummary">
+        <result name="success" type="freemarker">/templates/views/viewCheckStyleSummary.ftl</result>
+        <result name="error" type="freemarker">/error.ftl</result>
+      </action>
+      <action name="viewCheckStyleViolationSummary" class="com.atlassian.bamboo.plugins.checkstyle.actions.ViewCheckStyleSummary" method="viewViolationSummary">
+        <result name="success" type="freemarker">/templates/views/viewCheckStyleViolationSummary.ftl</result>
+        <result name="error" type="freemarker">/error.ftl</result>
+      </action>
+      <action name="viewCheckStyleDeltaByAuthor" class="com.atlassian.bamboo.plugins.checkstyle.actions.ViewCheckStyleSummary" method="viewCheckStyleDeltaByAuthor">
+        <result name="success" type="freemarker">/templates/views/viewCheckStyleAuthorDeltaGraph.ftl</result>
+        <result name="error" type="freemarker">/error.ftl</result>
+      </action>
+    </package>
+  </xwork>
+  
+  <web-item key="CheckStyle:${planKey}-${buildNumber}" name="checkstyle" section="results.subMenu/results" weight="70">
+    <label key="CheckStyle"/>
+    <link linkId="CheckStyle:${planKey}-${buildNumber}">/build/result/viewCheckStyleResult.action?planKey=${planKey}&amp;buildNumber=${buildNumber}</link>
+    <condition class="com.atlassian.bamboo.plugins.checkstyle.CheckStyleResultWebItemCondition" />
+  </web-item>
+  <web-item key="CheckStyle:${planKey}" name="checkstyle" section="build.subMenu/build" weight="80">
+    <label key="CheckStyle"/>
+    <link linkId="CheckStyle:${planKey}">/build/viewCheckStyleSummary.action?planKey=${planKey}</link>
+    <condition class="com.atlassian.bamboo.plugins.checkstyle.CheckStyleBuildWebItemCondition"/>
+  </web-item>
+</atlassian-plugin>

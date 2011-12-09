@@ -1,0 +1,25 @@
+id: 1.0.r1/0
+type: dir
+count: 0
+cpath: /simple-project
+copyroot: 0 /
+
+PLAIN
+K 14
+simple-project
+V 12
+dir 1.0.r1/0
+END
+ENDREP
+id: 0.0.r1/125
+type: dir
+pred: 0.0.r0/17
+count: 1
+text: 1 70 42 42 f9a27899d0f0a4b8e4e47b6262b0558c
+cpath: /
+copyroot: 0 /
+
+_0.0.t0-1 add false false /simple-project
+
+
+125 249

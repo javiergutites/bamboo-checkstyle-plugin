@@ -1,0 +1,40 @@
+id: 2.0.r2/0
+type: dir
+count: 0
+cpath: /simple-project/trunk
+copyroot: 0 /
+
+PLAIN
+K 5
+trunk
+V 12
+dir 2.0.r2/0
+END
+ENDREP
+id: 1.0.r2/121
+type: dir
+pred: 1.0.r1/0
+count: 1
+text: 2 76 32 32 87b10dcfff8ce8d52691584eef67f43e
+cpath: /simple-project
+copyroot: 0 /
+
+PLAIN
+K 14
+simple-project
+V 14
+dir 1.0.r2/121
+END
+ENDREP
+id: 0.0.r2/315
+type: dir
+pred: 0.0.r1/125
+count: 2
+text: 2 258 44 44 d634c8ac7558743f2f7c5278634f2075
+cpath: /
+copyroot: 0 /
+
+_0.0.t1-1 add false false /simple-project/trunk
+
+
+315 441

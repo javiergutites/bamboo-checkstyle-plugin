@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "http://logging.apache.org/log4j/docs/api/org/apache/log4j/xml/log4j.dtd">
+<!--
+
+# Default LOG4J parameter for WEB server side (DMZ1)
+
+#
+# For PatternLayout format, see:
+# 	http://jakarta.apache.org/log4j/docs/api/org/apache/log4j/PatternLayout.html
+#
+# General information about LOG4J:
+#   http://www.vipan.com/htdocs/log4jhelp.html
+#   http://logging.apache.org/log4j/docs/FAQ.html
+-->
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<!-- CONSOLE APPENDER (stdout) -->
+	<appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.TTCCLayout"/>
+	</appender>
+
+	<!-- ROOT LOGGER -->
+	<root>
+		<level value="ERROR"/>
+		<appender-ref ref="stdout"/>
+	</root>
+
+</log4j:configuration>
