@@ -1,12 +1,12 @@
 package com.atlassian.bamboo.plugins.checkstyle;
 
+import com.atlassian.bamboo.plugins.checkstyle.parser.CheckStyleReportParser;
+import com.atlassian.bamboo.utils.FileVisitor;
+import org.apache.log4j.Logger;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.log4j.Logger;
-
-import com.atlassian.bamboo.utils.FileVisitor;
 
 public class CheckStyleFileVisitor
     extends FileVisitor
@@ -14,23 +14,14 @@ public class CheckStyleFileVisitor
 {
     private static final Logger log = Logger.getLogger( CheckStyleFileVisitor.class );
 
-    // === ATTRIBUTES
-    // ============================================================
-    // ========================
     private final Map<String, String> results;
 
-    // === CONSTRUCTOR
-    // ==========================================================
-    // =========================
     public CheckStyleFileVisitor( File file, Map<String, String> results )
     {
         super( file );
         this.results = results;
     }
 
-    // === METHODS
-    // ==============================================================
-    // =========================
     public void visitFile( File file )
     {
         if ( file.getName().endsWith( "xml" ) )
@@ -43,15 +34,15 @@ public class CheckStyleFileVisitor
     {
         try
         {
-            log.info( "Parsing file: " + file.getAbsolutePath() );
+            log.info("Parsing file: " + file.getAbsolutePath());
             CheckStyleReportParser parser = new CheckStyleReportParser();
-            parser.parse( file );
+            parser.parse(file);
 
-            merge( CHECKSTYLE_TOP_VIOLATIONS, parser.convertTopViolationsToCsv() );
-            merge( CHECKSTYLE_TOTAL_VIOLATIONS, parser.getTotalViolations() );
-            merge( CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS, parser.getErrorPriorityViolations() );
-            merge( CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS, parser.getWarningPriorityViolations() );
-            merge( CHECKSTYLE_INFO_PRIORITY_VIOLATIONS, parser.getInfoPriorityViolations() );
+            merge(CHECKSTYLE_TOP_VIOLATIONS, parser.convertTopViolationsToCsv() );
+            merge(CHECKSTYLE_TOTAL_VIOLATIONS, parser.getTotalViolations() );
+            merge(CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS, parser.getErrorPriorityViolations() );
+            merge(CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS, parser.getWarningPriorityViolations() );
+            merge(CHECKSTYLE_INFO_PRIORITY_VIOLATIONS, parser.getInfoPriorityViolations() );
         }
         catch ( Exception e )
         {
@@ -59,7 +50,7 @@ public class CheckStyleFileVisitor
         }
     }
 
-    private void merge( String checkstyleViolations, long violations )
+    private void merge(String checkstyleViolations, long violations)
     {
         log.debug("Appending current violation [" + violations + "] to " + checkstyleViolations);
         String existingResults = (String) getResults().get(checkstyleViolations);
@@ -73,14 +64,14 @@ public class CheckStyleFileVisitor
         getResults().put(checkstyleViolations, Long.toString( newViolation ));
     }
 
-    private void merge( String checkstyleTopViolations, String csv )
+    private void merge(String checkstyleTopViolations, String csv)
     {
         String oldTopViolations = getResults().put(checkstyleTopViolations, csv);
         String newTopViolations = csv;
         
         if (oldTopViolations != null) {
-            Map<String, Integer> oldTopViolationsMap = CsvHelper.extractToCsv( oldTopViolations );
-            Map<String, Integer> newTopViolationsMap = CsvHelper.extractToCsv( newTopViolations );
+            Map<String, Integer> oldTopViolationsMap = CsvHelper.extractToCsv(oldTopViolations);
+            Map<String, Integer> newTopViolationsMap = CsvHelper.extractToCsv(newTopViolations);
            
             HashMap<String , Integer> violationsPerFile = new HashMap<String, Integer>();
             violationsPerFile.putAll( oldTopViolationsMap );

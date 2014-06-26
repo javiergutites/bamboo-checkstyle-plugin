@@ -4,12 +4,7 @@ import com.atlassian.bamboo.build.BuildDefinitionManager;
 import com.atlassian.bamboo.build.Job;
 import com.atlassian.bamboo.plugins.checkstyle.CheckstylePluginHelper;
 import com.atlassian.bamboo.plugins.checkstyle.ICheckStyleBuildProcessor;
-import com.atlassian.bamboo.task.TaskConfigurationService;
-import com.atlassian.bamboo.task.TaskDefinition;
-import com.atlassian.bamboo.task.TaskDefinitionImpl;
-import com.atlassian.bamboo.task.TaskManager;
-import com.atlassian.bamboo.task.TaskModuleDescriptor;
-import com.atlassian.bamboo.task.TaskRootDirectorySelector;
+import com.atlassian.bamboo.task.*;
 import com.atlassian.bamboo.ww2.BambooActionSupport;
 import com.atlassian.bamboo.ww2.aware.permissions.GlobalAdminSecurityAware;
 import com.google.common.base.Predicate;
@@ -40,7 +35,8 @@ public class MigrateAction extends BambooActionSupport implements GlobalAdminSec
 
                 TaskModuleDescriptor taskModuleDescriptor = taskManager.getTaskDescriptor(CheckstylePluginHelper.CHECKSTYLE_TASK_PLUGIN_KEY);
 
-                TaskDefinition taskDefinition = taskConfigurationService.createTask(job.getPlanKey(), taskModuleDescriptor, "", checkStyleConfig, TaskRootDirectorySelector.DEFAULT);
+                TaskDefinition taskDefinition = taskConfigurationService.createTask(job.getPlanKey(),
+                        taskModuleDescriptor, "", true, checkStyleConfig, TaskRootDirectorySelector.DEFAULT);
 
                 List<TaskDefinition> taskDefinitions = job.getBuildDefinition().getTaskDefinitions();
                 taskDefinition.setFinalising(true);
