@@ -11,15 +11,17 @@
   <taskType key="checkStyleTask" name="CheckStyle Report" class="com.atlassian.bamboo.plugins.checkstyle.tasks.CheckStyleTask">
       <description>Parses a CheckStyle report and reports violations</description>
       <configuration class="com.atlassian.bamboo.plugins.checkstyle.tasks.CheckStyleTaskConfigurator"/>
-        <resource type="freemarker" name="edit" location="templates/buildProcessor/checkstyleProcessorEdit.ftl"/>
-        <resource type="freemarker" name="view" location="templates/buildProcessor/checkstyleProcessorView.ftl"/>
+        <resource type="freemarker" name="edit" location="templates/buildProcessor/checkstyleTaskEdit.ftl"/>
+        <resource type="freemarker" name="view" location="templates/buildProcessor/checkstyleTaskView.ftl"/>
         <resource type="download" name="icon" location="logo.png"/>
   </taskType>
   
   <buildProcessorServer key="checkstyleBuildProcessorServer" name="CheckStyle Delta Calculator"
                   class="com.atlassian.bamboo.plugins.checkstyle.CheckStyleBuildProcessorServer">
-    <skipIfFailed>false</skipIfFailed>
-    <description>A server side CheckStyle report parser and data collector</description>
+      <description>A server side CheckStyle report parser and data collector</description>
+      <skipIfFailed>false</skipIfFailed>
+      <resource type="freemarker" name="edit" location="templates/buildProcessor/checkstyleProcessorEdit.ftl"/>
+      <resource type="freemarker" name="view" location="templates/buildProcessor/checkstyleProcessorView.ftl"/>
   </buildProcessorServer>
   
   <postBuildIndexWriter key="checkstyleIndexWriter" name="Write the CheckStyle Result to Index" class="com.atlassian.bamboo.plugins.checkstyle.CheckStylePostBuildIndexWriter">

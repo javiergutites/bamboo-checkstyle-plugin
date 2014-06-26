@@ -28,33 +28,33 @@ public class CheckStyleTask implements TaskType
 
         final Map<String, String> checkstyleResults = new HashMap<String, String>();
 
-        String pathPattern = config.get( ICheckStyleBuildProcessor.CHECKSTYLE_XML_PATH_KEY );
+        String pathPattern = config.get(ICheckStyleBuildProcessor.CHECKSTYLE_XML_PATH_KEY);
 
-        if ( !StringUtils.isEmpty(pathPattern) )
+        if (!StringUtils.isEmpty(pathPattern))
         {
             File workingDirectory = taskContext.getWorkingDirectory();
-            FileVisitor fileVisitor = new CheckStyleFileVisitor(workingDirectory, checkstyleResults );
+            FileVisitor fileVisitor = new CheckStyleFileVisitor(workingDirectory, checkstyleResults);
             try
             {
-                fileVisitor.visitFilesThatMatch( pathPattern );
+                fileVisitor.visitFilesThatMatch(pathPattern);
             }
             catch (InterruptedException e)
             {
                 throw new TaskException("Could not find checkstyle files: " + e.getMessage(), e);
             }
 
-            if ( !checkstyleResults.isEmpty() )
+            if (!checkstyleResults.isEmpty())
             {
-                if (StringUtils.isNotBlank( config.get( CheckStyleTaskConfigurator.CHECKSTYLE_SITE_URL ) ) ) {
+                if (StringUtils.isNotBlank(config.get(CheckStyleTaskConfigurator.CHECKSTYLE_SITE_URL))) {
                     // Transform filename in http checkstyle report
-                    CheckstylePluginHelper.transformFilenameInHttpURL( workingDirectory, config, checkstyleResults );
+                    CheckstylePluginHelper.transformFilenameInHttpURL(workingDirectory, config, checkstyleResults);
                 }
 
                 // Check for thresholds on error and warning and fail build
                 // if exceeded
 
                 processThreshold(config, checkstyleResults, "error", buildLogger, builder);
-                processThreshold( config, checkstyleResults, "warning", buildLogger, builder );
+                processThreshold(config, checkstyleResults, "warning", buildLogger, builder);
 
                 taskContext.getBuildContext().getBuildResult().getCustomBuildData().putAll(checkstyleResults);
             }
@@ -63,7 +63,8 @@ public class CheckStyleTask implements TaskType
         return builder.build();
     }
 
-    private void processThreshold(ConfigurationMap config, Map<String, String> checkstyleResults, String type, BuildLogger buildLogger, TaskResultBuilder builder)
+    private void processThreshold(ConfigurationMap config, Map<String, String> checkstyleResults, String type,
+                                  BuildLogger buildLogger, TaskResultBuilder builder)
     {
         String thresholdName = CheckStyleTaskConfigurator.CHECKSTYLE_ERROR_PRIORITY_THRESHOLD;
         String violationName = ICheckStyleBuildProcessor.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS;
