@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="4.1">
+    <file name="/ClassOne.java">
+        <error line="0" severity="error" message="File does not end with a newline." source="com.puppycrawl.tools.checkstyle.checks.NewlineAtEndOfFileCheck" />
+        <error line="0" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck" />
+    </file>
+    <file name="/ClassTwo.java">
+    </file>
+    <file name="/ClassThree.java">
+        <error line="8" severity="error" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTypeCheck"/>
+        <error line="10" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+        <error line="25" column="9" severity="error" message="Redundant &apos;public&apos; modifier." source="com.puppycrawl.tools.checkstyle.checks.modifier.RedundantModifierCheck"/>
+        <error line="26" column="1" severity="error" message="Line contains a tab character." source="com.puppycrawl.tools.checkstyle.checks.whitespace.TabCharacterCheck"/>
+        <error line="29" severity="info" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.GenericIllegalRegexpCheck"/>
+    </file>
+</checkstyle>

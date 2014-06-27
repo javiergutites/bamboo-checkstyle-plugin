@@ -1,65 +1,58 @@
 /**
- * 
+ *
  */
 package com.atlassian.bamboo.plugins.checkstyle;
 
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
+import com.google.common.collect.Lists;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
+import javax.annotation.Nonnull;
+import java.io.StringReader;
+import java.util.*;
+
 /**
  * A simple helper classe for marshall and unmarshall the csv checkstyle result
- * 
+ *
  * @author lauvigne
  */
-public class CsvHelper
-{
-    public static final String LINE_SEPARATOR = System.getProperty( "line.separator" );
+public final class CsvHelper {
+    public static final String LINE_SEPARATOR = System.getProperty("line.separator");
+    public static final int TOP_VIOLATIONS = 10;
+
+    private CsvHelper() {
+        throw new AssertionError("CsvHelper should not be instantiated");
+    }
 
     /**
      * Convert the 10 first violation per file in csv result.
-     * 
+     *
      * @param violationsPerFile the map contains <filename, numberOfViolations>
      * @return the csv result
      */
-    public static String convertTopViolationsToCsv( Map<String, Integer> violationsPerFile )
-    {
-        StringBuffer buffer = new StringBuffer();
-        List<CheckStyleViolationInformation> violations = new ArrayList<CheckStyleViolationInformation>();
-
-        // populate the List
-        Iterator<String> keys = violationsPerFile.keySet().iterator();
-        while ( keys.hasNext() )
-        {
-            String key = keys.next();
-            int value = violationsPerFile.get( key ).intValue();
-            violations.add( new CheckStyleViolationInformation( key, value ) );
+    public static String convertTopViolationsToCsv(@Nonnull Map<String, Integer> violationsPerFile) {
+        StringBuilder builder = new StringBuilder();
+        List<CheckStyleViolationInformation> violations = Lists.newArrayList();
+        for (String key : violationsPerFile.keySet()) {
+            violations.add(new CheckStyleViolationInformation(key, violationsPerFile.get(key)));
         }
 
-        // Sort it
-        Collections.sort( violations );
+        Collections.sort(violations);
 
         // Append the 10 first Elements
-        for ( int i = 0; ( i < ( ( violations.size() > 10 ) ? 10 : violations.size() ) ); i++ )
+        int max = violations.size() > TOP_VIOLATIONS ? TOP_VIOLATIONS : violations.size();
+        for (int i = 0; (i < max); i++ )
         {
-            CheckStyleViolationInformation info = violations.get( i );
-            buffer.append( info.getFileName() ).append( "," );
-            buffer.append( info.getNumberOfViolations() ).append( LINE_SEPARATOR );
+            CheckStyleViolationInformation info = violations.get(i);
+            builder.append(info.getFileName()).append(",");
+            builder.append(info.getNumberOfViolations()).append( LINE_SEPARATOR );
         }
 
-        return buffer.toString();
+        return builder.toString();
     }
 
     @SuppressWarnings("unchecked")
-    public static Map<String, Integer> extractToCsv( final String csv )
-    {
+    public static Map<String, Integer> extractToCsv(final String csv) {
         HashMap<String, Integer> result = new HashMap<String, Integer>();
         Iterator<String> iter = IOUtils.lineIterator( new StringReader( csv ) );
         while ( iter.hasNext() )

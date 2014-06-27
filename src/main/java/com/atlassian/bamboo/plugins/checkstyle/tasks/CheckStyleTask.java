@@ -2,11 +2,9 @@ package com.atlassian.bamboo.plugins.checkstyle.tasks;
 
 import com.atlassian.bamboo.build.logger.BuildLogger;
 import com.atlassian.bamboo.configuration.ConfigurationMap;
-import com.atlassian.bamboo.plugins.checkstyle.CheckStyleFileVisitor;
 import com.atlassian.bamboo.plugins.checkstyle.CheckstylePluginHelper;
 import com.atlassian.bamboo.plugins.checkstyle.ICheckStyleBuildProcessor;
 import com.atlassian.bamboo.task.*;
-import com.atlassian.bamboo.utils.FileVisitor;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.jetbrains.annotations.NotNull;
@@ -33,7 +31,7 @@ public class CheckStyleTask implements TaskType
         if (!StringUtils.isEmpty(pathPattern))
         {
             File workingDirectory = taskContext.getWorkingDirectory();
-            FileVisitor fileVisitor = new CheckStyleFileVisitor(workingDirectory, checkstyleResults);
+            CheckStyleFileVisitor fileVisitor = new CheckStyleFileVisitor(workingDirectory, checkstyleResults);
             try
             {
                 fileVisitor.visitFilesThatMatch(pathPattern);
@@ -42,6 +40,7 @@ public class CheckStyleTask implements TaskType
             {
                 throw new TaskException("Could not find checkstyle files: " + e.getMessage(), e);
             }
+            fileVisitor.finished();
 
             if (!checkstyleResults.isEmpty())
             {
