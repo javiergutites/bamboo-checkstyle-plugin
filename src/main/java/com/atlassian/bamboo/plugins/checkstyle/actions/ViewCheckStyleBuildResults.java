@@ -3,20 +3,19 @@
  */
 package com.atlassian.bamboo.plugins.checkstyle.actions;
 
+import com.atlassian.bamboo.build.ViewBuildResults;
+import com.atlassian.bamboo.plugins.checkstyle.CheckStyleBambooConstants;
+import com.atlassian.bamboo.plugins.checkstyle.CheckStyleViolationInformation;
+import com.atlassian.bamboo.results.BuildResults;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
-
-import com.atlassian.bamboo.plugins.checkstyle.ICheckStyleBuildProcessor;
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-
-import com.atlassian.bamboo.build.ViewBuildResults;
-import com.atlassian.bamboo.plugins.checkstyle.CheckStyleViolationInformation;
-import com.atlassian.bamboo.results.BuildResults;
 
 /************************************************************************************************************
  * ViewCheckStyleBuildResults.
@@ -57,7 +56,7 @@ public class ViewCheckStyleBuildResults extends ViewBuildResults {
    * @param buildResults
    */
   private void populateTopViolations(BuildResults buildResults) {
-    String csv = (String) buildResults.getBuildResultsSummary().getCustomBuildData().get(ICheckStyleBuildProcessor.CHECKSTYLE_TOP_VIOLATIONS);
+    String csv = (String) buildResults.getBuildResultsSummary().getCustomBuildData().get(CheckStyleBambooConstants.CHECKSTYLE_TOP_VIOLATIONS);
     if ((csv != null) && !StringUtils.isEmpty(csv)) {
       BufferedReader reader = new BufferedReader(new StringReader(csv));
       String line = null;

@@ -3,14 +3,14 @@
  */
 package com.atlassian.bamboo.plugins.checkstyle.collators;
 
-import java.util.Map;
-
 import com.atlassian.bamboo.builder.BuildState;
 import com.atlassian.bamboo.charts.collater.TimePeriodCollater;
 import com.atlassian.bamboo.charts.timeperiod.AbstractTimePeriodCollater;
-import com.atlassian.bamboo.plugins.checkstyle.ICheckStyleBuildProcessor;
+import com.atlassian.bamboo.plugins.checkstyle.CheckStyleBambooConstants;
 import com.atlassian.bamboo.resultsummary.BuildResultsSummary;
 import com.atlassian.bamboo.resultsummary.ResultStatisticsProvider;
+
+import java.util.Map;
 
 /************************************************************************************************************
  * CheckStyleLineRateViolationCollator.
@@ -41,23 +41,23 @@ public class CheckStyleLineRateViolationCollator extends AbstractTimePeriodColla
         String violationsStr;
         double violationsDbl = 0;
         boolean add = false;
-        if (getSeriesName().equals("total") && map.containsKey(ICheckStyleBuildProcessor.CHECKSTYLE_TOTAL_VIOLATIONS)) {
-          violationsStr = (String) map.get(ICheckStyleBuildProcessor.CHECKSTYLE_TOTAL_VIOLATIONS);
+        if (getSeriesName().equals("total") && map.containsKey(CheckStyleBambooConstants.CHECKSTYLE_TOTAL_VIOLATIONS)) {
+          violationsStr = (String) map.get(CheckStyleBambooConstants.CHECKSTYLE_TOTAL_VIOLATIONS);
           violationsDbl = Double.parseDouble(violationsStr);
           add = true;
         }
-        if (getSeriesName().equals("error") && map.containsKey(ICheckStyleBuildProcessor.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS)) {
-          violationsStr = (String) map.get(ICheckStyleBuildProcessor.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS);
+        if (getSeriesName().equals("error") && map.containsKey(CheckStyleBambooConstants.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS)) {
+          violationsStr = (String) map.get(CheckStyleBambooConstants.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS);
           violationsDbl = Double.parseDouble(violationsStr);
           add = true;
         }
-        if (getSeriesName().equals("warning") && map.containsKey(ICheckStyleBuildProcessor.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS)) {
-          violationsStr = (String) map.get(ICheckStyleBuildProcessor.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS);
+        if (getSeriesName().equals("warning") && map.containsKey(CheckStyleBambooConstants.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS)) {
+          violationsStr = (String) map.get(CheckStyleBambooConstants.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS);
           violationsDbl = Double.parseDouble(violationsStr);
           add = true;
         }
-        if (getSeriesName().equals("info") && map.containsKey(ICheckStyleBuildProcessor.CHECKSTYLE_INFO_PRIORITY_VIOLATIONS)) {
-          violationsStr = (String) map.get(ICheckStyleBuildProcessor.CHECKSTYLE_INFO_PRIORITY_VIOLATIONS);
+        if (getSeriesName().equals("info") && map.containsKey(CheckStyleBambooConstants.CHECKSTYLE_INFO_PRIORITY_VIOLATIONS)) {
+          violationsStr = (String) map.get(CheckStyleBambooConstants.CHECKSTYLE_INFO_PRIORITY_VIOLATIONS);
           violationsDbl = Double.parseDouble(violationsStr);
           add = true;
         }

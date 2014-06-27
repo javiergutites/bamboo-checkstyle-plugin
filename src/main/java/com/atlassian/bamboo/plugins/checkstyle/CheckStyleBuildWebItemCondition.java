@@ -3,13 +3,12 @@
  */
 package com.atlassian.bamboo.plugins.checkstyle;
 
-import java.util.Map;
-
 import com.atlassian.bamboo.build.Job;
-import com.atlassian.bamboo.plan.Plan;
 import com.atlassian.bamboo.plan.PlanManager;
 import com.atlassian.plugin.PluginParseException;
 import com.atlassian.plugin.web.Condition;
+
+import java.util.Map;
 
 /************************************************************************************************************
  * CheckStyleBuildWebItemCondition.
@@ -48,8 +47,8 @@ public class CheckStyleBuildWebItemCondition
     public boolean shouldDisplay( Map context )
     {
         String buildKey =
-            ( context.get( ICheckStyleBuildProcessor.BUILD_KEY ) == null ) ? null
-                            : (String) context.get( ICheckStyleBuildProcessor.BUILD_KEY );
+            ( context.get( CheckStyleBambooConstants.BUILD_KEY ) == null ) ? null
+                            : (String) context.get( CheckStyleBambooConstants.BUILD_KEY );
         if ( buildKey == null )
         {
             return false;

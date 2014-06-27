@@ -3,14 +3,13 @@
  */
 package com.atlassian.bamboo.plugins.checkstyle;
 
-import java.util.Map;
-
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-
 import com.atlassian.bamboo.index.CustomPostBuildIndexWriter;
 import com.atlassian.bamboo.resultsummary.BuildResultsSummary;
 import com.atlassian.bamboo.util.NumberUtils;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+
+import java.util.Map;
 
 /************************************************************************************************************
  * CheckStylePostBuildIndexWriter.
@@ -30,14 +29,14 @@ public class CheckStylePostBuildIndexWriter implements CustomPostBuildIndexWrite
    */
   public void updateIndexDocument(Document document, BuildResultsSummary resultsSummary) {
     if (resultsSummary != null) {
-      addStuffToIndex(ICheckStyleBuildProcessor.CHECKSTYLE_TOTAL_VIOLATIONS, document, resultsSummary);
-      addStuffToIndex(ICheckStyleBuildProcessor.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS, document, resultsSummary);
-      addStuffToIndex(ICheckStyleBuildProcessor.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS, document, resultsSummary);
-      addStuffToIndex(ICheckStyleBuildProcessor.CHECKSTYLE_INFO_PRIORITY_VIOLATIONS, document, resultsSummary);
-      addStuffToIndex(ICheckStyleBuildProcessor.CHECKSTYLE_TOTAL_VIOLATION_DELTA, document, resultsSummary);
-      addStuffToIndex(ICheckStyleBuildProcessor.CHECKSTYLE_ERROR_VIOLATION_DELTA, document, resultsSummary);
-      addStuffToIndex(ICheckStyleBuildProcessor.CHECKSTYLE_WARNING_VIOLATION_DELTA, document, resultsSummary);
-      addStuffToIndex(ICheckStyleBuildProcessor.CHECKSTYLE_INFO_VIOLATION_DELTA, document, resultsSummary);
+      addStuffToIndex(CheckStyleBambooConstants.CHECKSTYLE_TOTAL_VIOLATIONS, document, resultsSummary);
+      addStuffToIndex(CheckStyleBambooConstants.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS, document, resultsSummary);
+      addStuffToIndex(CheckStyleBambooConstants.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS, document, resultsSummary);
+      addStuffToIndex(CheckStyleBambooConstants.CHECKSTYLE_INFO_PRIORITY_VIOLATIONS, document, resultsSummary);
+      addStuffToIndex(CheckStyleBambooConstants.CHECKSTYLE_TOTAL_VIOLATION_DELTA, document, resultsSummary);
+      addStuffToIndex(CheckStyleBambooConstants.CHECKSTYLE_ERROR_VIOLATION_DELTA, document, resultsSummary);
+      addStuffToIndex(CheckStyleBambooConstants.CHECKSTYLE_WARNING_VIOLATION_DELTA, document, resultsSummary);
+      addStuffToIndex(CheckStyleBambooConstants.CHECKSTYLE_INFO_VIOLATION_DELTA, document, resultsSummary);
     }
   }
   

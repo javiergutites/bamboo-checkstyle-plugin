@@ -1,29 +1,44 @@
 package com.atlassian.bamboo.plugins.checkstyle.tasks;
 
 import com.atlassian.bamboo.plugins.checkstyle.CsvHelper;
-import com.atlassian.bamboo.plugins.checkstyle.ICheckStyleBuildProcessor;
 import com.atlassian.bamboo.plugins.checkstyle.parser.CheckStyleReportParser;
+import com.atlassian.bamboo.plugins.checkstyle.parser.CheckstyleResultProcessor;
 import com.atlassian.bamboo.plugins.checkstyle.parser.StatisticsCheckstyleResultProcessor;
 import com.atlassian.bamboo.utils.FileVisitor;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import org.apache.log4j.Logger;
 
+import javax.annotation.Nonnull;
 import java.io.File;
+import java.util.Collections;
 import java.util.Map;
 
-public class CheckStyleFileVisitor extends FileVisitor implements ICheckStyleBuildProcessor {
+import static com.atlassian.bamboo.plugins.checkstyle.CheckStyleBambooConstants.*;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Arrays.asList;
+
+public class CheckStyleFileVisitor extends FileVisitor {
 
     private static final Logger log = Logger.getLogger(CheckStyleFileVisitor.class);
 
+    private final File root;
     private final Map<String, String> results;
     private final Map<String, Integer> violationsPerFile = Maps.newHashMap();
 
-    // TODO
-//    private final Iterable<CheckstyleResultProcessor> moreProcessors;
+    private final Iterable<CheckstyleResultProcessor> processors;
 
-    public CheckStyleFileVisitor(File file, Map<String, String> results) {
-        super( file );
-        this.results = results;
+    public CheckStyleFileVisitor(File root, Map<String, String> results) {
+        this(root, results, Collections.<CheckstyleResultProcessor>emptyList());
+    }
+
+    public CheckStyleFileVisitor(@Nonnull File root, @Nonnull Map<String, String> results,
+                                 @Nonnull Iterable<CheckstyleResultProcessor> customProcessors) {
+        super(checkNotNull(root, "root"));
+        this.root = root;
+        this.results = checkNotNull(results, "results");
+        this.processors = ImmutableList.copyOf(customProcessors);
     }
 
     public void visitFile(File file) {
@@ -31,6 +46,14 @@ public class CheckStyleFileVisitor extends FileVisitor implements ICheckStyleBui
         {
             runParse(file);
         }
+    }
+
+    public CheckStyleFileVisitor withProcessors(@Nonnull Iterable<CheckstyleResultProcessor> moreProcessors) {
+            return new CheckStyleFileVisitor(root, results, Iterables.concat(processors, moreProcessors));
+        }
+
+    public CheckStyleFileVisitor withProcessors(@Nonnull CheckstyleResultProcessor... moreProcessors) {
+        return withProcessors(asList(moreProcessors));
     }
 
     public void finished() {

@@ -24,19 +24,14 @@ import java.util.Map;
  *
  * @author lauvigne
  */
-public class CheckStyleBuildProcessorServer extends BaseConfigurablePlugin
-        implements CustomBuildProcessorServer, ICheckStyleBuildProcessor
+public class CheckStyleBuildProcessorServer extends BaseConfigurablePlugin implements CustomBuildProcessorServer
 {
-    public static final String CHECKSTYLE_ENABLE_INTEGRATION = "custom.checkstyle.enable.integration";
-
-    public static final String CHECKSTYLE_JSON_ARTIFACT_NAME = "Checkstyle JSON Report (System)";
-    public static final String CHECKSTYLE_JSON_ARTIFACT_LOCATION = "checkstyle-json";
-    public static final String CHECKSTYLE_JSON_ARTIFACT_FILE = "checkstyle.json";
-
-    // =======================================================================================================
-    // === ATTRIBUTES
-    // =======================================================================================================
     private static final Logger log = Logger.getLogger( CheckStyleBuildProcessorServer.class );
+
+    public static final String CHECKSTYLE_ENABLE_INTEGRATION = "custom.checkstyle.enable.integration";
+    public static final String CHECKSTYLE_JSON_ARTIFACT_LABEL = "Checkstyle JSON Report (System)";
+    public static final String CHECKSTYLE_JSON_ARTIFACT_LOCATION = "checkstyle-json";
+    public static final String CHECKSTYLE_JSON_ARTIFACT_FILE_NAME = "checkstyle.json";
 
     private BuildContext buildContext;
 
@@ -118,14 +113,14 @@ public class CheckStyleBuildProcessorServer extends BaseConfigurablePlugin
         }
 
         boolean isIntegrationEnabled = buildConfiguration.getBoolean(CHECKSTYLE_ENABLE_INTEGRATION);
-        ArtifactDefinition existingDefinition = artifactDefinitionManager.findArtifactDefinition(job, CHECKSTYLE_JSON_ARTIFACT_NAME);
+        ArtifactDefinition existingDefinition = artifactDefinitionManager.findArtifactDefinition(job, CHECKSTYLE_JSON_ARTIFACT_LABEL);
         boolean hasArtifactDefinition = existingDefinition != null;
 
         if (isIntegrationEnabled != hasArtifactDefinition) {
             if (isIntegrationEnabled) {
                 // create the definition
-                ArtifactDefinitionImpl artifact = new ArtifactDefinitionImpl(CHECKSTYLE_JSON_ARTIFACT_NAME,
-                        CHECKSTYLE_JSON_ARTIFACT_LOCATION, CHECKSTYLE_JSON_ARTIFACT_FILE);
+                ArtifactDefinitionImpl artifact = new ArtifactDefinitionImpl(CHECKSTYLE_JSON_ARTIFACT_LABEL,
+                        CHECKSTYLE_JSON_ARTIFACT_LOCATION, CHECKSTYLE_JSON_ARTIFACT_FILE_NAME);
                 artifact.setProducerJob(job);
                 artifactDefinitionManager.saveArtifactDefinition(artifact);
             } else {

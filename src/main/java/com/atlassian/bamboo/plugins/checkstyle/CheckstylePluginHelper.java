@@ -3,16 +3,14 @@
  */
 package com.atlassian.bamboo.plugins.checkstyle;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import com.atlassian.bamboo.build.Job;
+import com.atlassian.bamboo.build.logger.BuildLogger;
+import com.atlassian.bamboo.builder.BuildState;
 import com.atlassian.bamboo.plugins.checkstyle.tasks.CheckStyleTaskConfigurator;
 import com.atlassian.bamboo.resultsummary.ResultsSummary;
 import com.atlassian.bamboo.task.TaskDefinition;
+import com.atlassian.bamboo.v2.build.BuildContext;
+import com.atlassian.bamboo.ww2.actions.build.admin.create.BuildConfiguration;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import org.apache.commons.httpclient.HttpClient;
@@ -22,28 +20,25 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang.math.NumberUtils;
 
-import com.atlassian.bamboo.build.logger.BuildLogger;
-import com.atlassian.bamboo.builder.BuildState;
-import com.atlassian.bamboo.v2.build.BuildContext;
-import com.atlassian.bamboo.ww2.actions.build.admin.create.BuildConfiguration;
-import org.aspectj.weaver.Iterators;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Helper class with some common method for Checkstyle plugin
  * 
  * @author lauvigne
  */
-public class CheckstylePluginHelper
-    implements ICheckStyleBuildProcessor
-{
+public class CheckstylePluginHelper {
     public static final String CHECKSTYLE_TASK_PLUGIN_KEY = "com.atlassian.bamboo.plugins.checkstyle:checkStyleTask";
 
     /**
      * @param job that
      * @return true if the plugin is actif for plan associated to this customConfiguration
      */
-    public static boolean isPluginActivated( Job job )
-    {
+    public static boolean isPluginActivated(Job job) {
         return Iterables.find(job.getBuildDefinition().getTaskDefinitions(), new Predicate<TaskDefinition>() {
             @Override
             public boolean apply(TaskDefinition taskDefinition) {
@@ -59,23 +54,19 @@ public class CheckstylePluginHelper
     public static boolean hasCheckstyleResults( Map<String, String> customBuildData )
     {
         return customBuildData != null
-            && customBuildData.containsKey( ICheckStyleBuildProcessor.CHECKSTYLE_TOTAL_VIOLATIONS );
+            && customBuildData.containsKey( CheckStyleBambooConstants.CHECKSTYLE_TOTAL_VIOLATIONS );
     }
 
     /**
      * @param summary a result of a build
      * @return true if the build has checkstyle results
      */
-    public static boolean hasCheckstyleResults( ResultsSummary summary )
-    {
-        if ( summary == null )
-        {
+    public static boolean hasCheckstyleResults(ResultsSummary summary) {
+        if (summary == null) {
             return false;
-        }
-        else
-        {
+        } else {
             Map<String, String> customBuildData = summary.getCustomBuildData();
-            return hasCheckstyleResults( customBuildData );
+            return hasCheckstyleResults(customBuildData);
         }
     }
 
@@ -83,14 +74,12 @@ public class CheckstylePluginHelper
      * @param configuration The build plan configuration
      * @return null if the url is valid, the error message if is invalid
      */
-    public static String validCheckstyleURL( BuildConfiguration configuration )
+    public static String validCheckstyleURL(BuildConfiguration configuration)
     {
-        if ( configuration.getBoolean( CHECKSTYLE_EXISTS )
-            && StringUtils.isNotBlank( configuration.getString( CheckStyleTaskConfigurator.CHECKSTYLE_SITE_URL ) ) )
-        {
-            String url = configuration.getString( CheckStyleTaskConfigurator.CHECKSTYLE_SITE_URL );
-
-            return validHttpURL( url );
+        if ( configuration.getBoolean(CheckStyleBambooConstants.CHECKSTYLE_EXISTS)
+            && StringUtils.isNotBlank(configuration.getString( CheckStyleTaskConfigurator.CHECKSTYLE_SITE_URL))) {
+            String url = configuration.getString(CheckStyleTaskConfigurator.CHECKSTYLE_SITE_URL);
+            return validHttpURL(url);
         }
 
         // Else it's valid
@@ -101,7 +90,7 @@ public class CheckstylePluginHelper
      * @param url the url to test
      * @return null if the url is valid, the error message if is invalid
      */
-    protected static String validHttpURL( String url )
+    protected static String validHttpURL(String url)
     {
         try
         {
@@ -141,11 +130,11 @@ public class CheckstylePluginHelper
                                                    Map<String, String> checkstyleResults )
     {
         String baseURL = customConfiguration.get( CheckStyleTaskConfigurator.CHECKSTYLE_SITE_URL );
-        String topViolations = checkstyleResults.get( ICheckStyleBuildProcessor.CHECKSTYLE_TOP_VIOLATIONS );
+        String topViolations = checkstyleResults.get( CheckStyleBambooConstants.CHECKSTYLE_TOP_VIOLATIONS );
 
         String newTopViolations = transformFilenameInHttpURL( sourceDirectory, baseURL, topViolations );
 
-        checkstyleResults.put( ICheckStyleBuildProcessor.CHECKSTYLE_TOP_VIOLATIONS, newTopViolations );
+        checkstyleResults.put( CheckStyleBambooConstants.CHECKSTYLE_TOP_VIOLATIONS, newTopViolations );
     }
 
     /**
@@ -221,11 +210,11 @@ public class CheckstylePluginHelper
     {
         Map<String, String> customConfiguration = context.getBuildDefinition().getCustomConfiguration();
         String thresholdName = CheckStyleTaskConfigurator.CHECKSTYLE_ERROR_PRIORITY_THRESHOLD;
-        String violationName = ICheckStyleBuildProcessor.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS;
+        String violationName = CheckStyleBambooConstants.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS;
         if ( "warning".equals( type ) )
         {
             thresholdName = CheckStyleTaskConfigurator.CHECKSTYLE_WARNING_PRIORITY_THRESHOLD;
-            violationName = ICheckStyleBuildProcessor.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS;
+            violationName = CheckStyleBambooConstants.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS;
         }
         
         int threshold = CheckstylePluginHelper.getThreshold( customConfiguration.get( thresholdName ) );
