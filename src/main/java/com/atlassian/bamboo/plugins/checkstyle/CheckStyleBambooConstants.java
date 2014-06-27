@@ -2,12 +2,11 @@ package com.atlassian.bamboo.plugins.checkstyle;
 
 import com.atlassian.bamboo.plugins.checkstyle.tasks.CheckStyleTaskConfigurator;
 
-/**
- * Interface for share the common constants
- *
- * @author lauvigne
- */
-public interface ICheckStyleBuildProcessor {
+public final class CheckStyleBambooConstants {
+
+    private CheckStyleBambooConstants() {
+        throw new AssertionError(CheckStyleBambooConstants.class.getName() + " should not be instantiated");
+    }
 
     public static final String CHECKSTYLE_EXISTS = "custom.checkstyle.exists";
 

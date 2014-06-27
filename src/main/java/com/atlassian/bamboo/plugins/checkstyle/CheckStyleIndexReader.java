@@ -3,11 +3,10 @@
  */
 package com.atlassian.bamboo.plugins.checkstyle;
 
-import org.apache.lucene.document.Document;
-
 import com.atlassian.bamboo.index.CustomIndexReader;
 import com.atlassian.bamboo.resultsummary.BuildResultsSummary;
 import com.atlassian.bamboo.util.NumberUtils;
+import org.apache.lucene.document.Document;
 
 /************************************************************************************************************
  * CheckStyleIndexReader.
@@ -26,14 +25,14 @@ public class CheckStyleIndexReader implements CustomIndexReader {
    * @param buildResultsSummary
    */
   public void extractFromDocument(Document document, BuildResultsSummary buildResultsSummary) {
-    addToBuildSummary(ICheckStyleBuildProcessor.CHECKSTYLE_TOTAL_VIOLATIONS, document, buildResultsSummary);
-    addToBuildSummary(ICheckStyleBuildProcessor.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS, document, buildResultsSummary);
-    addToBuildSummary(ICheckStyleBuildProcessor.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS, document, buildResultsSummary);
-    addToBuildSummary(ICheckStyleBuildProcessor.CHECKSTYLE_INFO_PRIORITY_VIOLATIONS, document, buildResultsSummary);
-    addToBuildSummary(ICheckStyleBuildProcessor.CHECKSTYLE_TOTAL_VIOLATION_DELTA, document, buildResultsSummary);
-    addToBuildSummary(ICheckStyleBuildProcessor.CHECKSTYLE_ERROR_VIOLATION_DELTA, document, buildResultsSummary);
-    addToBuildSummary(ICheckStyleBuildProcessor.CHECKSTYLE_WARNING_VIOLATION_DELTA, document, buildResultsSummary);
-    addToBuildSummary(ICheckStyleBuildProcessor.CHECKSTYLE_INFO_VIOLATION_DELTA, document, buildResultsSummary);
+    addToBuildSummary(CheckStyleBambooConstants.CHECKSTYLE_TOTAL_VIOLATIONS, document, buildResultsSummary);
+    addToBuildSummary(CheckStyleBambooConstants.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS, document, buildResultsSummary);
+    addToBuildSummary(CheckStyleBambooConstants.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS, document, buildResultsSummary);
+    addToBuildSummary(CheckStyleBambooConstants.CHECKSTYLE_INFO_PRIORITY_VIOLATIONS, document, buildResultsSummary);
+    addToBuildSummary(CheckStyleBambooConstants.CHECKSTYLE_TOTAL_VIOLATION_DELTA, document, buildResultsSummary);
+    addToBuildSummary(CheckStyleBambooConstants.CHECKSTYLE_ERROR_VIOLATION_DELTA, document, buildResultsSummary);
+    addToBuildSummary(CheckStyleBambooConstants.CHECKSTYLE_WARNING_VIOLATION_DELTA, document, buildResultsSummary);
+    addToBuildSummary(CheckStyleBambooConstants.CHECKSTYLE_INFO_VIOLATION_DELTA, document, buildResultsSummary);
   }
   
   /********************************************************************************************************

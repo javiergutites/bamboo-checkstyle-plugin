@@ -3,15 +3,14 @@
  */
 package com.atlassian.bamboo.plugins.checkstyle;
 
-import java.util.Map;
-
 import com.atlassian.bamboo.plan.PlanKeys;
 import com.atlassian.bamboo.plan.PlanResultKey;
-import com.atlassian.bamboo.resultsummary.BuildResultsSummary;
 import com.atlassian.bamboo.resultsummary.ResultsSummary;
 import com.atlassian.bamboo.resultsummary.ResultsSummaryManager;
 import com.atlassian.plugin.PluginParseException;
 import com.atlassian.plugin.web.Condition;
+
+import java.util.Map;
 
 /************************************************************************************************************
  * CheckStyleResultWebItemCondition.
@@ -50,11 +49,11 @@ public class CheckStyleResultWebItemCondition
     public boolean shouldDisplay( Map context )
     {
         String buildKey =
-            ( context.get( ICheckStyleBuildProcessor.BUILD_KEY ) == null ) ? null
-                            : (String) context.get( ICheckStyleBuildProcessor.BUILD_KEY );
+            ( context.get( CheckStyleBambooConstants.BUILD_KEY ) == null ) ? null
+                            : (String) context.get( CheckStyleBambooConstants.BUILD_KEY );
         String buildNumberString =
-            ( context.get( ICheckStyleBuildProcessor.BUILD_NUMBER ) == null ) ? null
-                            : (String) context.get( ICheckStyleBuildProcessor.BUILD_NUMBER );
+            ( context.get( CheckStyleBambooConstants.BUILD_NUMBER ) == null ) ? null
+                            : (String) context.get( CheckStyleBambooConstants.BUILD_NUMBER );
         if ( ( buildKey == null ) || ( buildNumberString == null ) )
         {
             return false;
