@@ -1,101 +1,79 @@
-/*
- * BAMBOO CheckStyle Plugin This plugin was developed on base of the PMD-plugin written by Ross Rowe.
- */
 package com.atlassian.bamboo.plugins.checkstyle.parser;
 
-import com.atlassian.bamboo.plugins.checkstyle.CsvHelper;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
 
-/************************************************************************************************************
+import static com.google.common.base.Preconditions.checkNotNull;
+import static edu.emory.mathcs.backport.java.util.Arrays.asList;
+
+/**
  * CheckStyleReportParser.
  *
  * @author Stephan Paulicke
  */
 public class CheckStyleReportParser {
-    // =======================================================================================================
-    // === ATTRIBUTES
-    // =======================================================================================================
-    private long totalViolations;
-    private long errorPriorityViolations;
-    private long warningPriorityViolations;
-    private long infoPriorityViolations;
 
-    private Hashtable<String, Integer> violationsPerFile;
+    private static final String CHECKSTYLE_XPATH = "//checkstyle/file";
+    private static final String ERROR_XPATH = "error";
+    private static final String NAME_ATTR_XPATH = "@name";
 
-    // =======================================================================================================
-    // === METHODS
-    // =======================================================================================================
+    private final Iterable<CheckstyleResultProcessor> processors;
 
-    /********************************************************************************************************
-     * parse().
+    public CheckStyleReportParser(@Nonnull CheckstyleResultProcessor... processors) {
+        this(asList(processors));
+    }
+
+    public CheckStyleReportParser(@Nonnull Iterable<CheckstyleResultProcessor> processors) {
+        this.processors = checkNotNull(processors, "processors");
+    }
+
+    /**
+     * Parse an input stream with checkstyle results.
      *
-     * @param stream
+     * @param stream stream with XML to parse
      */
-    public void parse(InputStream stream) throws DocumentException {
+    public void parse(@Nonnull InputStream stream) throws DocumentException {
         SAXReader reader = new SAXReader();
         Document document = reader.read(stream);
         parse(document);
     }
 
-    /********************************************************************************************************
-     * parse().
+    /**
+     * Parse a results file
      *
-     * @param file
+     * @param file file with XML checkstyle results to parse
      * @throws MalformedURLException
      * @throws DocumentException
      */
-    public void parse(File file) throws MalformedURLException, DocumentException {
+    public void parse(@Nonnull File file) throws MalformedURLException, DocumentException {
         SAXReader reader = new SAXReader();
         Document document = reader.read(file);
         parse(document);
     }
 
-    /********************************************************************************************************
-     * parse().
-     *
-     * @param document
-     */
     private void parse(Document document) {
-        violationsPerFile = new Hashtable<String, Integer>();
-        errorPriorityViolations = 0;
-        warningPriorityViolations = 0;
-        infoPriorityViolations = 0;
-        List<Node> files = document.selectNodes("//checkstyle/file");
-        for (Iterator<Node> iterator = files.iterator(); iterator.hasNext();) {
-            Node fileNode = iterator.next();
-            List<Node> xErrors = fileNode.selectNodes("error");
-            for (Node errorNode : xErrors) {
-                String name = fileNode.valueOf("@name");
-                if (!violationsPerFile.containsKey(name)) {
-                    violationsPerFile.put(name, new Integer(0));
-                }
-                violationsPerFile.put(name, new Integer(violationsPerFile.get(name).intValue() + 1));
+        @SuppressWarnings("unchecked") List<Node> files = document.selectNodes(CHECKSTYLE_XPATH);
 
-                String severity = errorNode.valueOf("@severity");
-                if (severity != null) {
-                    severity = severity.toUpperCase();
-                    if (severity.equalsIgnoreCase("error")) {
-                        errorPriorityViolations++;
-                    } else if (severity.equalsIgnoreCase("warning")) {
-                        warningPriorityViolations++;
-                    } else if (severity.equalsIgnoreCase("info")) {
-                        infoPriorityViolations++;
-                    }
+        for (Node fileNode : files) {
+            @SuppressWarnings("unchecked") List<Node> errors = fileNode.selectNodes(ERROR_XPATH);
+            String fileName = fileNode.valueOf("@name");
+
+            for (Node errorNode : errors) {
+                CheckstyleError error = CheckstyleError.fromNode(fileName, errorNode);
+                for (CheckstyleResultProcessor processor : processors) {
+                    processor.onError(error);
                 }
             }
         }
-        totalViolations = (errorPriorityViolations + warningPriorityViolations + infoPriorityViolations);
     }
 
     /********************************************************************************************************
@@ -105,27 +83,8 @@ public class CheckStyleReportParser {
      * @return
      * @throws FileNotFoundException
      */
-    public String convertTopViolationsToCsv() throws FileNotFoundException {
-        return CsvHelper.convertTopViolationsToCsv(violationsPerFile);
-    }
+//    public String convertTopViolationsToCsv() throws FileNotFoundException {
+//        return CsvHelper.convertTopViolationsToCsv(violationsPerFile);
+//    }
 
-    // =======================================================================================================
-    // === PROPERTIES
-    // =======================================================================================================
-
-    public long getTotalViolations() {
-        return totalViolations;
-    }
-
-    public long getErrorPriorityViolations() {
-        return errorPriorityViolations;
-    }
-
-    public long getInfoPriorityViolations() {
-        return infoPriorityViolations;
-    }
-
-    public long getWarningPriorityViolations() {
-        return warningPriorityViolations;
-    }
 }
