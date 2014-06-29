@@ -10,7 +10,6 @@ import com.atlassian.bamboo.plugins.checkstyle.tasks.CheckStyleTaskConfigurator;
 import com.atlassian.bamboo.resultsummary.ResultsSummary;
 import com.atlassian.bamboo.task.TaskDefinition;
 import com.atlassian.bamboo.v2.build.BuildContext;
-import com.atlassian.bamboo.ww2.actions.build.admin.create.BuildConfiguration;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import org.apache.commons.httpclient.HttpClient;
@@ -20,11 +19,15 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang.math.NumberUtils;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import static com.atlassian.bamboo.plugins.checkstyle.CheckstylePluginConstants.CHECKSTYLE_ENABLE_INTEGRATION;
+import static org.apache.commons.lang.BooleanUtils.toBoolean;
 
 /**
  * Helper class with some common method for Checkstyle plugin
@@ -51,10 +54,8 @@ public class CheckstylePluginHelper {
      * @param customBuildData Map that constains the metadata of a build
      * @return true if the build has checkstyle results
      */
-    public static boolean hasCheckstyleResults( Map<String, String> customBuildData )
-    {
-        return customBuildData != null
-            && customBuildData.containsKey( CheckStyleBambooConstants.CHECKSTYLE_TOTAL_VIOLATIONS );
+    public static boolean hasCheckstyleResults(Map<String, String> customBuildData) {
+        return customBuildData != null && customBuildData.containsKey(CheckstylePluginConstants.CHECKSTYLE_TOTAL_VIOLATIONS);
     }
 
     /**
@@ -71,19 +72,14 @@ public class CheckstylePluginHelper {
     }
 
     /**
-     * @param configuration The build plan configuration
-     * @return null if the url is valid, the error message if is invalid
+     * Check whether remote integration with code analysis tools is enabled.
+     *
+     * @param buildContext build context to inspect
+     * @return {@code true}, if code analysis integration is enabled for the plan represented by {@code buildContext},
+     * {@code false} otherwise
      */
-    public static String validCheckstyleURL(BuildConfiguration configuration)
-    {
-        if ( configuration.getBoolean(CheckStyleBambooConstants.CHECKSTYLE_EXISTS)
-            && StringUtils.isNotBlank(configuration.getString( CheckStyleTaskConfigurator.CHECKSTYLE_SITE_URL))) {
-            String url = configuration.getString(CheckStyleTaskConfigurator.CHECKSTYLE_SITE_URL);
-            return validHttpURL(url);
-        }
-
-        // Else it's valid
-        return null;
+    public static boolean isIntegrationEnabled(@Nonnull BuildContext buildContext) {
+        return toBoolean(buildContext.getBuildDefinition().getCustomConfiguration().get(CHECKSTYLE_ENABLE_INTEGRATION));
     }
 
     /**
@@ -130,11 +126,11 @@ public class CheckstylePluginHelper {
                                                    Map<String, String> checkstyleResults )
     {
         String baseURL = customConfiguration.get( CheckStyleTaskConfigurator.CHECKSTYLE_SITE_URL );
-        String topViolations = checkstyleResults.get( CheckStyleBambooConstants.CHECKSTYLE_TOP_VIOLATIONS );
+        String topViolations = checkstyleResults.get( CheckstylePluginConstants.CHECKSTYLE_TOP_VIOLATIONS );
 
         String newTopViolations = transformFilenameInHttpURL( sourceDirectory, baseURL, topViolations );
 
-        checkstyleResults.put( CheckStyleBambooConstants.CHECKSTYLE_TOP_VIOLATIONS, newTopViolations );
+        checkstyleResults.put( CheckstylePluginConstants.CHECKSTYLE_TOP_VIOLATIONS, newTopViolations );
     }
 
     /**
@@ -210,11 +206,11 @@ public class CheckstylePluginHelper {
     {
         Map<String, String> customConfiguration = context.getBuildDefinition().getCustomConfiguration();
         String thresholdName = CheckStyleTaskConfigurator.CHECKSTYLE_ERROR_PRIORITY_THRESHOLD;
-        String violationName = CheckStyleBambooConstants.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS;
+        String violationName = CheckstylePluginConstants.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS;
         if ( "warning".equals( type ) )
         {
             thresholdName = CheckStyleTaskConfigurator.CHECKSTYLE_WARNING_PRIORITY_THRESHOLD;
-            violationName = CheckStyleBambooConstants.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS;
+            violationName = CheckstylePluginConstants.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS;
         }
         
         int threshold = CheckstylePluginHelper.getThreshold( customConfiguration.get( thresholdName ) );

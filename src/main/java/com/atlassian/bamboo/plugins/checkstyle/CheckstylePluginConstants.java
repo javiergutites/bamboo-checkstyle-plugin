@@ -2,10 +2,10 @@ package com.atlassian.bamboo.plugins.checkstyle;
 
 import com.atlassian.bamboo.plugins.checkstyle.tasks.CheckStyleTaskConfigurator;
 
-public final class CheckStyleBambooConstants {
+public final class CheckstylePluginConstants {
 
-    private CheckStyleBambooConstants() {
-        throw new AssertionError(CheckStyleBambooConstants.class.getName() + " should not be instantiated");
+    private CheckstylePluginConstants() {
+        throw new AssertionError(CheckstylePluginConstants.class.getName() + " should not be instantiated");
     }
 
     public static final String CHECKSTYLE_EXISTS = "custom.checkstyle.exists";
@@ -26,4 +26,9 @@ public final class CheckStyleBambooConstants {
 
     public static final String BUILD_NUMBER = "buildNumber";
     public static final String BUILD_KEY = "buildKey";
+
+    public static final String CHECKSTYLE_ENABLE_INTEGRATION = "custom.checkstyle.enable.integration";
+    public static final String CHECKSTYLE_JSON_ARTIFACT_LABEL = "Checkstyle JSON Report (System)";
+    public static final String CHECKSTYLE_JSON_ARTIFACT_LOCATION = "checkstyle-json";
+    public static final String CHECKSTYLE_JSON_ARTIFACT_FILE_NAME = "checkstyle.json";
 }

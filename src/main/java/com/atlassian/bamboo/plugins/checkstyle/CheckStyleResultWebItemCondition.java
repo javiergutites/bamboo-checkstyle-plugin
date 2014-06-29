@@ -49,11 +49,11 @@ public class CheckStyleResultWebItemCondition
     public boolean shouldDisplay( Map context )
     {
         String buildKey =
-            ( context.get( CheckStyleBambooConstants.BUILD_KEY ) == null ) ? null
-                            : (String) context.get( CheckStyleBambooConstants.BUILD_KEY );
+            ( context.get( CheckstylePluginConstants.BUILD_KEY ) == null ) ? null
+                            : (String) context.get( CheckstylePluginConstants.BUILD_KEY );
         String buildNumberString =
-            ( context.get( CheckStyleBambooConstants.BUILD_NUMBER ) == null ) ? null
-                            : (String) context.get( CheckStyleBambooConstants.BUILD_NUMBER );
+            ( context.get( CheckstylePluginConstants.BUILD_NUMBER ) == null ) ? null
+                            : (String) context.get( CheckstylePluginConstants.BUILD_NUMBER );
         if ( ( buildKey == null ) || ( buildNumberString == null ) )
         {
             return false;

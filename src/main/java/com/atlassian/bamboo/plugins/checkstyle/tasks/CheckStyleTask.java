@@ -2,8 +2,7 @@ package com.atlassian.bamboo.plugins.checkstyle.tasks;
 
 import com.atlassian.bamboo.build.logger.BuildLogger;
 import com.atlassian.bamboo.configuration.ConfigurationMap;
-import com.atlassian.bamboo.plugins.checkstyle.CheckStyleBambooConstants;
-import com.atlassian.bamboo.plugins.checkstyle.CheckStyleBuildProcessorServer;
+import com.atlassian.bamboo.plugins.checkstyle.CheckstylePluginConstants;
 import com.atlassian.bamboo.plugins.checkstyle.CheckstylePluginHelper;
 import com.atlassian.bamboo.plugins.checkstyle.parser.DetailedJsonCheckstyleResultProcessor;
 import com.atlassian.bamboo.task.*;
@@ -17,9 +16,8 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.atlassian.bamboo.plugins.checkstyle.CheckStyleBuildProcessorServer.CHECKSTYLE_JSON_ARTIFACT_FILE_NAME;
-import static com.atlassian.bamboo.plugins.checkstyle.CheckStyleBuildProcessorServer.CHECKSTYLE_JSON_ARTIFACT_LOCATION;
-import static org.apache.commons.lang.BooleanUtils.toBoolean;
+import static com.atlassian.bamboo.plugins.checkstyle.CheckstylePluginConstants.CHECKSTYLE_JSON_ARTIFACT_FILE_NAME;
+import static com.atlassian.bamboo.plugins.checkstyle.CheckstylePluginConstants.CHECKSTYLE_JSON_ARTIFACT_LOCATION;
 
 public class CheckStyleTask implements TaskType
 {
@@ -33,8 +31,8 @@ public class CheckStyleTask implements TaskType
         final BuildLogger buildLogger = taskContext.getBuildLogger();
         final ConfigurationMap config = taskContext.getConfigurationMap();
 
-        final String pathPattern = config.get(CheckStyleBambooConstants.CHECKSTYLE_XML_PATH_KEY);
-        final boolean integrationEnabled = isIntegrationEnabled(taskContext);
+        final String pathPattern = config.get(CheckstylePluginConstants.CHECKSTYLE_XML_PATH_KEY);
+        final boolean integrationEnabled = CheckstylePluginHelper.isIntegrationEnabled(taskContext.getBuildContext());
 
         final Map<String, String> checkstyleResults = new HashMap<String, String>();
 
@@ -73,11 +71,6 @@ public class CheckStyleTask implements TaskType
         return builder.build();
     }
 
-    private boolean isIntegrationEnabled(TaskContext taskContext) {
-        return toBoolean(taskContext.getBuildContext().getBuildDefinition().getCustomConfiguration()
-                .get(CheckStyleBuildProcessorServer.CHECKSTYLE_ENABLE_INTEGRATION));
-    }
-
     private void visitPaths(String pathPattern, CheckStyleFileVisitor fileVisitor) throws TaskException {
         try
         {
@@ -94,11 +87,11 @@ public class CheckStyleTask implements TaskType
                                   BuildLogger buildLogger, TaskResultBuilder builder)
     {
         String thresholdName = CheckStyleTaskConfigurator.CHECKSTYLE_ERROR_PRIORITY_THRESHOLD;
-        String violationName = CheckStyleBambooConstants.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS;
+        String violationName = CheckstylePluginConstants.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS;
         if ( "warning".equals( type ) )
         {
             thresholdName = CheckStyleTaskConfigurator.CHECKSTYLE_WARNING_PRIORITY_THRESHOLD;
-            violationName = CheckStyleBambooConstants.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS;
+            violationName = CheckstylePluginConstants.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS;
         }
 
         int threshold = CheckstylePluginHelper.getThreshold( config.get( thresholdName ) );

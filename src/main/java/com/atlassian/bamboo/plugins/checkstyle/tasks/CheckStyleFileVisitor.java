@@ -15,7 +15,7 @@ import java.io.File;
 import java.util.Collections;
 import java.util.Map;
 
-import static com.atlassian.bamboo.plugins.checkstyle.CheckStyleBambooConstants.*;
+import static com.atlassian.bamboo.plugins.checkstyle.CheckstylePluginConstants.*;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Arrays.asList;
 

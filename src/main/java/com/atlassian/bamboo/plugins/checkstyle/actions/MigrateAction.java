@@ -2,7 +2,7 @@ package com.atlassian.bamboo.plugins.checkstyle.actions;
 
 import com.atlassian.bamboo.build.BuildDefinitionManager;
 import com.atlassian.bamboo.build.Job;
-import com.atlassian.bamboo.plugins.checkstyle.CheckStyleBambooConstants;
+import com.atlassian.bamboo.plugins.checkstyle.CheckstylePluginConstants;
 import com.atlassian.bamboo.plugins.checkstyle.CheckstylePluginHelper;
 import com.atlassian.bamboo.task.*;
 import com.atlassian.bamboo.ww2.BambooActionSupport;
@@ -52,9 +52,9 @@ public class MigrateAction extends BambooActionSupport implements GlobalAdminSec
     private boolean isCheckStyleEnabled(Job job)
     {
         Map<String, String> customConfiguration = job.getBuildDefinition().getCustomConfiguration();
-        return customConfiguration != null && customConfiguration.containsKey( CheckStyleBambooConstants.CHECKSTYLE_EXISTS )
-            && "true".equals( customConfiguration.get( CheckStyleBambooConstants.CHECKSTYLE_EXISTS ) )
-            && customConfiguration.containsKey( CheckStyleBambooConstants.CHECKSTYLE_XML_PATH_KEY );
+        return customConfiguration != null && customConfiguration.containsKey( CheckstylePluginConstants.CHECKSTYLE_EXISTS )
+            && "true".equals( customConfiguration.get( CheckstylePluginConstants.CHECKSTYLE_EXISTS ) )
+            && customConfiguration.containsKey( CheckstylePluginConstants.CHECKSTYLE_XML_PATH_KEY );
     }
 
     public void setTaskManager(TaskManager taskManager)
