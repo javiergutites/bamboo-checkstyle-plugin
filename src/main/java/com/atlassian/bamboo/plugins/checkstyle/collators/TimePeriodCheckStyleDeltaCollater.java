@@ -7,7 +7,7 @@ import com.atlassian.bamboo.author.Author;
 import com.atlassian.bamboo.builder.BuildState;
 import com.atlassian.bamboo.charts.collater.TimePeriodCollater;
 import com.atlassian.bamboo.charts.timeperiod.AbstractTimePeriodCollater;
-import com.atlassian.bamboo.plugins.checkstyle.CheckStyleBambooConstants;
+import com.atlassian.bamboo.plugins.checkstyle.CheckstylePluginConstants;
 import com.atlassian.bamboo.resultsummary.BuildResultsSummary;
 import com.atlassian.bamboo.resultsummary.ResultStatisticsProvider;
 import com.google.common.base.Function;
@@ -57,8 +57,8 @@ public class TimePeriodCheckStyleDeltaCollater extends AbstractTimePeriodCollate
         authorCount = 1;
       }
       Map buildData = results.getCustomBuildData();
-      if ((buildData != null) && buildData.containsKey(CheckStyleBambooConstants.CHECKSTYLE_TOTAL_VIOLATION_DELTA)) {
-        String violationsStr = (String) buildData.get(CheckStyleBambooConstants.CHECKSTYLE_TOTAL_VIOLATION_DELTA);
+      if ((buildData != null) && buildData.containsKey(CheckstylePluginConstants.CHECKSTYLE_TOTAL_VIOLATION_DELTA)) {
+        String violationsStr = (String) buildData.get(CheckstylePluginConstants.CHECKSTYLE_TOTAL_VIOLATION_DELTA);
         totalDelta += Double.parseDouble(violationsStr) / (double) authorCount;
       }
     }

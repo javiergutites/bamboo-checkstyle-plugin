@@ -47,8 +47,8 @@ public class CheckStyleBuildWebItemCondition
     public boolean shouldDisplay( Map context )
     {
         String buildKey =
-            ( context.get( CheckStyleBambooConstants.BUILD_KEY ) == null ) ? null
-                            : (String) context.get( CheckStyleBambooConstants.BUILD_KEY );
+            ( context.get( CheckstylePluginConstants.BUILD_KEY ) == null ) ? null
+                            : (String) context.get( CheckstylePluginConstants.BUILD_KEY );
         if ( buildKey == null )
         {
             return false;

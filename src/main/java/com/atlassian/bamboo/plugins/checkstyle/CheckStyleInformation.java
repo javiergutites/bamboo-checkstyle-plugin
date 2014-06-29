@@ -56,7 +56,7 @@ public class CheckStyleInformation
      */
     public String getTopViolations()
     {
-        return getCustomdata().get( CheckStyleBambooConstants.CHECKSTYLE_TOP_VIOLATIONS );
+        return getCustomdata().get( CheckstylePluginConstants.CHECKSTYLE_TOP_VIOLATIONS );
     }
 
     /**
@@ -64,7 +64,7 @@ public class CheckStyleInformation
      */
     public void setTopViolations( String topViolations )
     {
-        getCustomdata().put( CheckStyleBambooConstants.CHECKSTYLE_TOP_VIOLATIONS, topViolations );
+        getCustomdata().put( CheckstylePluginConstants.CHECKSTYLE_TOP_VIOLATIONS, topViolations );
     }
 
     /**
@@ -72,7 +72,7 @@ public class CheckStyleInformation
      */
     public Integer getTotalViolations()
     {
-        return getInteger( CheckStyleBambooConstants.CHECKSTYLE_TOTAL_VIOLATIONS );
+        return getInteger( CheckstylePluginConstants.CHECKSTYLE_TOTAL_VIOLATIONS );
     }
 
     /**
@@ -80,7 +80,7 @@ public class CheckStyleInformation
      */
     public void setTotalViolations( Integer numberViolations )
     {
-        getCustomdata().put( CheckStyleBambooConstants.CHECKSTYLE_TOTAL_VIOLATIONS, Integer.toString( numberViolations ) );
+        getCustomdata().put( CheckstylePluginConstants.CHECKSTYLE_TOTAL_VIOLATIONS, Integer.toString( numberViolations ) );
     }
 
     /**
@@ -88,7 +88,7 @@ public class CheckStyleInformation
      */
     public Integer getErrorViolations()
     {
-        return getInteger( CheckStyleBambooConstants.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS );
+        return getInteger( CheckstylePluginConstants.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS );
     }
 
     /**
@@ -96,7 +96,7 @@ public class CheckStyleInformation
      */
     public void setErrorViolations( Integer numberViolations )
     {
-        getCustomdata().put( CheckStyleBambooConstants.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS,
+        getCustomdata().put( CheckstylePluginConstants.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS,
                              Integer.toString( numberViolations ) );
     }
 
@@ -105,7 +105,7 @@ public class CheckStyleInformation
      */
     public Integer getWarningViolations()
     {
-        return getInteger( CheckStyleBambooConstants.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS );
+        return getInteger( CheckstylePluginConstants.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS );
     }
 
     /**
@@ -113,7 +113,7 @@ public class CheckStyleInformation
      */
     public void setWarningViolations( Integer numberViolations )
     {
-        getCustomdata().put( CheckStyleBambooConstants.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS,
+        getCustomdata().put( CheckstylePluginConstants.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS,
                              Integer.toString( numberViolations ) );
     }
 
@@ -122,7 +122,7 @@ public class CheckStyleInformation
      */
     public Integer getInfoViolations()
     {
-        return getInteger( CheckStyleBambooConstants.CHECKSTYLE_INFO_PRIORITY_VIOLATIONS );
+        return getInteger( CheckstylePluginConstants.CHECKSTYLE_INFO_PRIORITY_VIOLATIONS );
     }
 
     /**
@@ -130,7 +130,7 @@ public class CheckStyleInformation
      */
     public void setInfoViolations( Integer numberViolations )
     {
-        getCustomdata().put( CheckStyleBambooConstants.CHECKSTYLE_INFO_PRIORITY_VIOLATIONS,
+        getCustomdata().put( CheckstylePluginConstants.CHECKSTYLE_INFO_PRIORITY_VIOLATIONS,
                              Integer.toString( numberViolations ) );
     }
 
@@ -159,7 +159,7 @@ public class CheckStyleInformation
      */
     public void setDeltaTotalViolations( CheckStyleInformation previous )
     {
-        put( CheckStyleBambooConstants.CHECKSTYLE_TOTAL_VIOLATION_DELTA, getTotalViolations()
+        put( CheckstylePluginConstants.CHECKSTYLE_TOTAL_VIOLATION_DELTA, getTotalViolations()
             - previous.getTotalViolations() );
     }
     /**
@@ -168,7 +168,7 @@ public class CheckStyleInformation
      */
     public void setDeltaErrorViolations( CheckStyleInformation previous )
     {
-        put( CheckStyleBambooConstants.CHECKSTYLE_ERROR_VIOLATION_DELTA, getErrorViolations()
+        put( CheckstylePluginConstants.CHECKSTYLE_ERROR_VIOLATION_DELTA, getErrorViolations()
             - previous.getErrorViolations() );
     }
     /**
@@ -177,7 +177,7 @@ public class CheckStyleInformation
      */
     public void setDeltaWarningViolations( CheckStyleInformation previous )
     {
-        put( CheckStyleBambooConstants.CHECKSTYLE_WARNING_VIOLATION_DELTA, getWarningViolations()
+        put( CheckstylePluginConstants.CHECKSTYLE_WARNING_VIOLATION_DELTA, getWarningViolations()
             - previous.getWarningViolations() );
     }
     /**
@@ -186,7 +186,7 @@ public class CheckStyleInformation
      */
     public void setDeltaInfoViolations( CheckStyleInformation previous )
     {
-        put( CheckStyleBambooConstants.CHECKSTYLE_INFO_VIOLATION_DELTA, getInfoViolations()
+        put( CheckstylePluginConstants.CHECKSTYLE_INFO_VIOLATION_DELTA, getInfoViolations()
             - previous.getInfoViolations() );
     }
 }

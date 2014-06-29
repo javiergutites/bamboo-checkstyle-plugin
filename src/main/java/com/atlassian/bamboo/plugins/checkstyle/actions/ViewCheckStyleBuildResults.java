@@ -4,8 +4,8 @@
 package com.atlassian.bamboo.plugins.checkstyle.actions;
 
 import com.atlassian.bamboo.build.ViewBuildResults;
-import com.atlassian.bamboo.plugins.checkstyle.CheckStyleBambooConstants;
 import com.atlassian.bamboo.plugins.checkstyle.CheckStyleViolationInformation;
+import com.atlassian.bamboo.plugins.checkstyle.CheckstylePluginConstants;
 import com.atlassian.bamboo.results.BuildResults;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -56,7 +56,7 @@ public class ViewCheckStyleBuildResults extends ViewBuildResults {
    * @param buildResults
    */
   private void populateTopViolations(BuildResults buildResults) {
-    String csv = (String) buildResults.getBuildResultsSummary().getCustomBuildData().get(CheckStyleBambooConstants.CHECKSTYLE_TOP_VIOLATIONS);
+    String csv = (String) buildResults.getBuildResultsSummary().getCustomBuildData().get(CheckstylePluginConstants.CHECKSTYLE_TOP_VIOLATIONS);
     if ((csv != null) && !StringUtils.isEmpty(csv)) {
       BufferedReader reader = new BufferedReader(new StringReader(csv));
       String line = null;

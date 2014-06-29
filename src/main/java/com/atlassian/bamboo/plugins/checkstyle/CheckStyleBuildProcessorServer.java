@@ -2,6 +2,7 @@ package com.atlassian.bamboo.plugins.checkstyle;
 
 import com.atlassian.bamboo.build.CustomBuildProcessorServer;
 import com.atlassian.bamboo.build.Job;
+import com.atlassian.bamboo.build.artifact.ArtifactLinkManager;
 import com.atlassian.bamboo.plan.Plan;
 import com.atlassian.bamboo.plan.PlanKey;
 import com.atlassian.bamboo.plan.PlanManager;
@@ -17,7 +18,10 @@ import com.atlassian.bamboo.ww2.actions.build.admin.create.BuildConfiguration;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import java.util.Map;
+
+import static com.atlassian.bamboo.plugins.checkstyle.CheckstylePluginConstants.*;
 
 /**
  * CheckStyleBuildProcessorServer.
@@ -28,35 +32,24 @@ public class CheckStyleBuildProcessorServer extends BaseConfigurablePlugin imple
 {
     private static final Logger log = Logger.getLogger( CheckStyleBuildProcessorServer.class );
 
-    public static final String CHECKSTYLE_ENABLE_INTEGRATION = "custom.checkstyle.enable.integration";
-    public static final String CHECKSTYLE_JSON_ARTIFACT_LABEL = "Checkstyle JSON Report (System)";
-    public static final String CHECKSTYLE_JSON_ARTIFACT_LOCATION = "checkstyle-json";
-    public static final String CHECKSTYLE_JSON_ARTIFACT_FILE_NAME = "checkstyle.json";
-
     private BuildContext buildContext;
 
     private ResultsSummaryManager resultsSummaryManager;
+    private ArtifactLinkManager artifactLinkManager;
     private ArtifactDefinitionManager artifactDefinitionManager;
     private PlanManager planManager;
 
-    /**
-     * @see com.atlassian.bamboo.v2.build.task.BuildTask#call()
-     */
-    public BuildContext call()
-            throws InterruptedException, Exception
-    {
+    @Nonnull
+    public BuildContext call() throws InterruptedException, Exception {
         log.info("Running CheckStyle BuildProcessor Server");
 
         calculateDelta();
+        sendNotification();
 
         return buildContext;
     }
 
-    /**
-     * @see com.atlassian.bamboo.v2.build.BaseConfigurableBuildPlugin#init(com.atlassian.bamboo.v2.build.BuildContext)
-     */
-    public void init(BuildContext buildContext)
-    {
+    public void init(@Nonnull BuildContext buildContext) {
         this.buildContext = buildContext;
     }
 
@@ -68,9 +61,9 @@ public class CheckStyleBuildProcessorServer extends BaseConfigurablePlugin imple
         Map<String, String> result = buildContext.getBuildResult().getCustomBuildData();
 
         //put delta only if Checkstyle collect is OK
-        if ( CheckstylePluginHelper.hasCheckstyleResults( result ) )
+        if (CheckstylePluginHelper.hasCheckstyleResults(result))
         {
-            CheckStyleInformation currentInformation = new CheckStyleInformation( result );
+            CheckStyleInformation currentInformation = new CheckStyleInformation(result);
 
             ResultsSummary previousSummary =
                     resultsSummaryManager.getLastResultsSummary(buildContext.getPlanKey(), ResultsSummary.class );
@@ -78,29 +71,14 @@ public class CheckStyleBuildProcessorServer extends BaseConfigurablePlugin imple
             //calculate delta only if an previous build is present
             if (previousSummary != null) {
                 CheckStyleInformation previousInformation =
-                        new CheckStyleInformation( previousSummary.getCustomBuildData() );
+                        new CheckStyleInformation(previousSummary.getCustomBuildData());
 
-                currentInformation.setDeltaTotalViolations( previousInformation );
-                currentInformation.setDeltaErrorViolations( previousInformation );
-                currentInformation.setDeltaWarningViolations( previousInformation );
-                currentInformation.setDeltaInfoViolations( previousInformation );
+                currentInformation.setDeltaTotalViolations(previousInformation);
+                currentInformation.setDeltaErrorViolations(previousInformation);
+                currentInformation.setDeltaWarningViolations(previousInformation);
+                currentInformation.setDeltaInfoViolations(previousInformation);
             }
         }
-    }
-
-    @Override
-    protected void populateContextForEdit(@NotNull Map<String, Object> context, @NotNull BuildConfiguration buildConfiguration, @NotNull Plan plan) {
-        super.populateContextForEdit(context, buildConfiguration, plan);
-
-        context.put(CHECKSTYLE_ENABLE_INTEGRATION, buildConfiguration.getBoolean(CHECKSTYLE_ENABLE_INTEGRATION));
-    }
-
-    @Override
-    protected void populateContextForView(@NotNull Map<String, Object> context, @NotNull Plan plan) {
-        super.populateContextForView(context, plan);
-
-        // TODO ?
-//        context.put(CHECKSTYLE_ENABLE_INTEGRATION, plan)
     }
 
     @Override
@@ -127,6 +105,33 @@ public class CheckStyleBuildProcessorServer extends BaseConfigurablePlugin imple
                 artifactDefinitionManager.removeArtifactDefinition(existingDefinition);
             }
         }
+    }
+
+    @Override
+    protected void populateContextForEdit(@NotNull Map<String, Object> context, @NotNull BuildConfiguration buildConfiguration, @NotNull Plan plan) {
+        super.populateContextForEdit(context, buildConfiguration, plan);
+
+        context.put(CHECKSTYLE_ENABLE_INTEGRATION, buildConfiguration.getBoolean(CHECKSTYLE_ENABLE_INTEGRATION));
+    }
+
+    @Override
+    protected void populateContextForView(@NotNull Map<String, Object> context, @NotNull Plan plan) {
+        super.populateContextForView(context, plan);
+
+        // TODO how can we do it without build config wut?
+//        context.put(CHECKSTYLE_ENABLE_INTEGRATION, plan)
+    }
+
+    private void sendNotification() {
+
+        if (CheckstylePluginHelper.isIntegrationEnabled(buildContext) && isSuccessful()) {
+            // TODO heavy lifting to ping all the stash servers out there
+        }
+    }
+
+    private boolean isSuccessful() {
+        // TODO it is ridiculously hard to figre out whether the build actually succeeded :/
+        return true;
     }
 
     public void setResultsSummaryManager(ResultsSummaryManager resultsSummaryManager)

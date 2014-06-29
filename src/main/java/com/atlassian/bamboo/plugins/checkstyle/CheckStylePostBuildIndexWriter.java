@@ -29,14 +29,14 @@ public class CheckStylePostBuildIndexWriter implements CustomPostBuildIndexWrite
    */
   public void updateIndexDocument(Document document, BuildResultsSummary resultsSummary) {
     if (resultsSummary != null) {
-      addStuffToIndex(CheckStyleBambooConstants.CHECKSTYLE_TOTAL_VIOLATIONS, document, resultsSummary);
-      addStuffToIndex(CheckStyleBambooConstants.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS, document, resultsSummary);
-      addStuffToIndex(CheckStyleBambooConstants.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS, document, resultsSummary);
-      addStuffToIndex(CheckStyleBambooConstants.CHECKSTYLE_INFO_PRIORITY_VIOLATIONS, document, resultsSummary);
-      addStuffToIndex(CheckStyleBambooConstants.CHECKSTYLE_TOTAL_VIOLATION_DELTA, document, resultsSummary);
-      addStuffToIndex(CheckStyleBambooConstants.CHECKSTYLE_ERROR_VIOLATION_DELTA, document, resultsSummary);
-      addStuffToIndex(CheckStyleBambooConstants.CHECKSTYLE_WARNING_VIOLATION_DELTA, document, resultsSummary);
-      addStuffToIndex(CheckStyleBambooConstants.CHECKSTYLE_INFO_VIOLATION_DELTA, document, resultsSummary);
+      addStuffToIndex(CheckstylePluginConstants.CHECKSTYLE_TOTAL_VIOLATIONS, document, resultsSummary);
+      addStuffToIndex(CheckstylePluginConstants.CHECKSTYLE_ERROR_PRIORITY_VIOLATIONS, document, resultsSummary);
+      addStuffToIndex(CheckstylePluginConstants.CHECKSTYLE_WARNING_PRIORITY_VIOLATIONS, document, resultsSummary);
+      addStuffToIndex(CheckstylePluginConstants.CHECKSTYLE_INFO_PRIORITY_VIOLATIONS, document, resultsSummary);
+      addStuffToIndex(CheckstylePluginConstants.CHECKSTYLE_TOTAL_VIOLATION_DELTA, document, resultsSummary);
+      addStuffToIndex(CheckstylePluginConstants.CHECKSTYLE_ERROR_VIOLATION_DELTA, document, resultsSummary);
+      addStuffToIndex(CheckstylePluginConstants.CHECKSTYLE_WARNING_VIOLATION_DELTA, document, resultsSummary);
+      addStuffToIndex(CheckstylePluginConstants.CHECKSTYLE_INFO_VIOLATION_DELTA, document, resultsSummary);
     }
   }
   
