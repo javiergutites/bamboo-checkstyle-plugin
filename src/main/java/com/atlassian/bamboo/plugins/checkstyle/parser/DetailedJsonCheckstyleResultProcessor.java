@@ -1,5 +1,6 @@
 package com.atlassian.bamboo.plugins.checkstyle.parser;
 
+import com.atlassian.bamboo.plugins.checkstyle.CheckstylePluginConstants;
 import com.atlassian.stash.codeanalysis.rest.CodeAnalysisNotification;
 import com.atlassian.stash.codeanalysis.rest.CodeAnalysisNotificationLocator;
 import com.google.common.collect.ImmutableMap;
@@ -18,8 +19,6 @@ import static com.atlassian.stash.codeanalysis.rest.CodeAnalysisNotification.Sev
  */
 @NotThreadSafe
 public class DetailedJsonCheckstyleResultProcessor implements CheckstyleResultProcessor {
-
-    private static final String CHECKSTYLE_TOOL = "Checkstyle";
 
     private final Map<String, List<CodeAnalysisNotification>> notifications = Maps.newHashMap();
 
@@ -41,7 +40,7 @@ public class DetailedJsonCheckstyleResultProcessor implements CheckstyleResultPr
 
     private CodeAnalysisNotification createNotification(CheckstyleError error) {
         return new CodeAnalysisNotification.Builder()
-                .tool(CHECKSTYLE_TOOL)
+                .tool(CheckstylePluginConstants.CHECKSTYLE_TOOL)
                 .details(error.getMessage())
                 .severity(getSeverity(error))
                 .locator(createLocator(error))

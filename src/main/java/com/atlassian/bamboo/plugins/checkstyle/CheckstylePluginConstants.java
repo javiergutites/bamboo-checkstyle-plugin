@@ -27,6 +27,7 @@ public final class CheckstylePluginConstants {
     public static final String BUILD_NUMBER = "buildNumber";
     public static final String BUILD_KEY = "buildKey";
 
+    public static final String CHECKSTYLE_TOOL = "Checkstyle";
     public static final String CHECKSTYLE_ENABLE_INTEGRATION = "custom.checkstyle.enable.integration";
     public static final String CHECKSTYLE_JSON_ARTIFACT_LABEL = "Checkstyle JSON Report (System)";
     public static final String CHECKSTYLE_JSON_ARTIFACT_LOCATION = "checkstyle-json";

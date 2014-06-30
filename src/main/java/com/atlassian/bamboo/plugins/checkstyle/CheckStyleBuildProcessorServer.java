@@ -123,9 +123,8 @@ public class CheckStyleBuildProcessorServer extends BaseConfigurablePlugin imple
     }
 
     private void sendNotification() {
-
         if (CheckstylePluginHelper.isIntegrationEnabled(buildContext) && isSuccessful()) {
-            // TODO heavy lifting to ping all the stash servers out there
+
         }
     }
 
