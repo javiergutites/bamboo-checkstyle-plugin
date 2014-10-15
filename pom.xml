@@ -12,7 +12,7 @@
     <groupId>com.atlassian.bamboo.plugins</groupId>
     <artifactId>bamboo-checkstyle-plugin</artifactId>
 
-    <version>3.0</version>
+    <version>3.1</version>
 
     <name>Bamboo Checkstyle Plugin</name>
     <packaging>atlassian-plugin</packaging>
@@ -24,9 +24,9 @@
     </scm>
 
     <properties>
-        <bamboo.version>3.3</bamboo.version>
+        <bamboo.version>5.6.2</bamboo.version>
         <bamboo.data.version>3.2.2</bamboo.data.version>
-        <amps.version>3.7.2</amps.version>
+        <amps.version>5.0.4</amps.version>
     </properties>
 
     <dependencies>
@@ -50,7 +50,7 @@
             <plugin>
                 <groupId>com.atlassian.maven.plugins</groupId>
                 <artifactId>maven-bamboo-plugin</artifactId>
-                <version>3.7.2</version>
+                <version>${amps.version}</version>
                 <extensions>true</extensions>
                 <configuration>
                     <productVersion>${bamboo.version}</productVersion>

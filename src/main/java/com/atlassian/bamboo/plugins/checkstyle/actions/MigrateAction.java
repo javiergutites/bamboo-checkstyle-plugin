@@ -40,8 +40,9 @@ public class MigrateAction extends BambooActionSupport implements GlobalAdminSec
 
                 TaskModuleDescriptor taskModuleDescriptor = taskManager.getTaskDescriptor(CheckstylePluginHelper.CHECKSTYLE_TASK_PLUGIN_KEY);
 
-                TaskDefinition taskDefinition = taskConfigurationService.createTask(job.getPlanKey(), taskModuleDescriptor, "", checkStyleConfig, TaskRootDirectorySelector.DEFAULT);
-
+                TaskDefinition taskDefinition = taskConfigurationService.createTask(
+                                            job.getPlanKey(), taskModuleDescriptor, "", true,
+                                            checkStyleConfig, TaskRootDirectorySelector.DEFAULT);
                 List<TaskDefinition> taskDefinitions = job.getBuildDefinition().getTaskDefinitions();
                 taskDefinition.setFinalising(true);
                 taskDefinitions.add(taskDefinition);
