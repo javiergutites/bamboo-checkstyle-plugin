@@ -55,7 +55,7 @@ public class CheckStylePostBuildIndexWriter implements CustomPostBuildIndexWrite
       if ((o != null) && (o instanceof String)) {
         String violations = (String) o;
         long violationsLong = Long.parseLong(violations);
-        Field field = new Field(key, NumberUtils.padWithZeroes(violationsLong, 12), Field.Store.YES, Field.Index.UN_TOKENIZED);
+        Field field = new Field(key, NumberUtils.padWithZeroes(violationsLong, 12), Field.Store.YES, Field.Index.NOT_ANALYZED);
         document.add(field);
       }
     }
